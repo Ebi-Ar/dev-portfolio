@@ -1,0 +1,1 @@
+const t=new Map;let n=null;function c(e){n!==e&&(t.clear(),n=e)}function i(e,r){if(!(!e||e!==n))return t.get(r)}function s(e,r,o){c(e),t.set(r,o)}const a="activeProgram";function u(e){return i(e,a)}function f(e,r){s(e,a,r)}export{u as a,s as b,i as r,f as w};

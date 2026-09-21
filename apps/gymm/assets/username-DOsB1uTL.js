@@ -1,0 +1,1 @@
+const a=/^[a-z0-9_]{3,20}$/;function n(e){return e.trim().replace(/^@/,"").toLowerCase()}function r(e){const s=(e??"").toLowerCase().replace(/[^a-z0-9_]/g,"").slice(0,20);return s.length>=3?s:""}export{a as U,n,r as s};

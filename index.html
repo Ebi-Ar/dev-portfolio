@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ebrahim Arefi — Software Developer</title>
+  <meta name="description" content="Ebrahim Arefi, third-year Computer Science student at UNB. Full-stack projects, AI integrations, OCR pipelines and client web work. Open to co-op and internship roles." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230272b4'/%3E%3Ctext x='16' y='21.5' font-family='monospace' font-size='14' font-weight='700' fill='%23fff' text-anchor='middle'%3EEA%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --surface: #f5f8fc;
+      --ink: #0f172a;
+      --muted: #475569;
+      --faint: #748296;
+      --line: #e2e8f0;
+      --accent: #0272b4;
+      --accent-soft: rgba(14, 165, 233, 0.09);
+      --live: #15803d;
+      --dev: #0284c7;
+      --paper: #ffffff;
+      --accent-glow: rgba(14, 165, 233, 0.38);
+      --flag: #dc2626;
+      --flag-soft: rgba(239, 68, 68, 0.1);
+      --code-bg: #0f172a;
+      --code-ink: #d6dde6;
+      --code-key: #7dd3fc;
+      --code-str: #86efac;
+      --code-num: #c4a7f5;
+      --code-dim: #64748b;
+      --sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+      --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1017;
+        --surface: #111923;
+        --ink: #e6edf5;
+        --muted: #9aa8b9;
+        --faint: #6f7e91;
+        --line: #1e2835;
+        --accent: #38bdf8;
+        --accent-soft: rgba(56, 189, 248, 0.1);
+        --live: #4ade80;
+        --dev: #38bdf8;
+        --paper: #151e29;
+        --accent-glow: rgba(56, 189, 248, 0.45);
+        --flag: #f87171;
+        --flag-soft: rgba(248, 113, 113, 0.14);
+        --code-bg: #070b10;
+        color-scheme: dark;
+      }
+    }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; }
+    ::selection { background: var(--accent); color: var(--bg); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+      gap: 80px;
+    }
+
+    /* ── SIDEBAR ── */
+    .side {
+      position: sticky; top: 0;
+      height: 100vh;
+      padding: 80px 0 56px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .status {
+      display: inline-flex; align-items: center; gap: 8px;
+      font: 500 12px/1 var(--mono);
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 7px 11px; border-radius: 999px;
+      margin-bottom: 28px;
+    }
+    .status .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; position: relative; }
+    .status .dot::after {
+      content: ''; position: absolute; inset: 0; border-radius: 50%;
+      background: currentColor; animation: ping 2.2s ease-out infinite;
+    }
+    @keyframes ping { 0% { transform: scale(1); opacity: .55; } 80%, 100% { transform: scale(2.6); opacity: 0; } }
+
+    .name {
+      font-size: clamp(2.4rem, 4.2vw, 3.1rem);
+      font-weight: 700; line-height: 1.08; letter-spacing: -0.03em;
+    }
+    .name .word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.06em; }
+    .name .ch { display: inline-block; will-change: transform; }
+    .role { margin-top: 14px; font-size: 1.1rem; font-weight: 500; }
+    .blurb { margin-top: 14px; color: var(--muted); max-width: 30ch; }
+
+    .toc { margin-top: 56px; list-style: none; }
+    .toc a {
+      display: flex; align-items: center; gap: 14px;
+      padding: 9px 0;
+      font: 500 12px/1 var(--mono); text-transform: uppercase; letter-spacing: 0.14em;
+      color: var(--faint); text-decoration: none;
+      transition: color .2s;
+    }
+    .toc .bar {
+      width: 60px; height: 1px; background: currentColor;
+      transform: scaleX(0.47); transform-origin: left;
+      transition: transform .3s ease;
+    }
+    .toc a:hover, .toc a.active { color: var(--ink); }
+    .toc a:hover .bar, .toc a.active .bar { transform: scaleX(1); }
+
+    .links { display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; }
+    .links a {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none;
+      transition: color .2s;
+    }
+    .links a:hover { color: var(--accent); }
+    .links svg { width: 17px; height: 17px; flex: none; }
+    .where { margin-top: 14px; font: 400 12px/1.4 var(--mono); color: var(--faint); }
+
+    /* ── MAIN ── */
+    main { padding: 80px 0 64px; min-width: 0; }
+    section { scroll-margin-top: 40px; padding-bottom: 88px; }
+    .sec-head {
+      display: flex; align-items: center; gap: 14px;
+      font: 600 12px/1 var(--mono); text-transform: uppercase; letter-spacing: 0.14em;
+      margin-bottom: 28px;
+    }
+    .sec-head .n { color: var(--accent); }
+    .sec-head .rule { flex: 1; height: 1px; background: var(--line); transform-origin: left; }
+
+    /* ── DEMO (invoice manager) ── */
+    .demo {
+      padding-bottom: 72px;
+    }
+    .demo-card {
+      border: 1px solid var(--line); border-radius: 14px;
+      background: var(--surface);
+      overflow: hidden;
+      container-type: inline-size;
+    }
+    .demo-bar {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 14px; border-bottom: 1px solid var(--line);
+      font: 500 12px/1 var(--mono); color: var(--faint);
+    }
+    .demo-bar .dots { display: flex; gap: 6px; }
+    .demo-bar .dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+    .demo-bar .title { flex: 1; }
+    .replay {
+      font: 500 12px/1 var(--mono); color: var(--muted);
+      background: none; border: 1px solid var(--line); border-radius: 6px;
+      padding: 6px 9px; cursor: pointer; transition: color .2s, border-color .2s;
+    }
+    .replay:hover { color: var(--accent); border-color: var(--accent); }
+    .demo-body {
+      display: grid; grid-template-columns: minmax(0, 0.9fr) auto minmax(0, 1.1fr);
+      align-items: center; gap: 18px;
+      padding: 28px 24px;
+    }
+
+    .receipt {
+      position: relative;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 18px 18px 16px;
+      font: 400 12.5px/1.5 var(--mono);
+      transform: rotate(-1.4deg);
+      box-shadow: 0 1px 0 var(--line), 0 12px 28px -18px rgba(0,0,0,.35);
+      overflow: hidden;
+    }
+    .receipt .r-head { font-weight: 600; letter-spacing: .06em; }
+    .receipt .r-sub { color: var(--faint); font-size: 11.5px; margin-bottom: 10px; }
+    .receipt ul { list-style: none; border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line); padding: 8px 0; }
+    .receipt li, .receipt .r-total { display: flex; justify-content: space-between; gap: 12px; position: relative; }
+    .receipt li span:first-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .receipt .r-total { margin-top: 8px; font-weight: 600; }
+    .receipt .mark {
+      position: absolute; inset: -1px -6px; border-radius: 3px;
+      background: var(--flag-soft); outline: 1px solid var(--flag);
+      pointer-events: none;
+    }
+    .receipt .tag {
+      position: absolute; right: -2px; top: -15px;
+      font: 600 9.5px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em;
+      background: var(--flag); color: var(--paper);
+      padding: 3px 5px; border-radius: 3px;
+    }
+    .receipt li.dup { margin-top: 17px; }
+    .scanline {
+      position: absolute; left: 0; right: 0; top: 0; height: 2px;
+      background: var(--accent);
+      box-shadow: 0 0 14px 3px var(--accent-glow);
+      opacity: 0; pointer-events: none;
+    }
+
+    .pipe-arrow { color: var(--accent); font: 500 20px/1 var(--mono); }
+
+    .json {
+      background: var(--code-bg); color: var(--code-ink);
+      border-radius: 10px; padding: 16px 18px;
+      font: 400 12.5px/1.65 var(--mono);
+      overflow-x: auto;
+    }
+    .json .jl { display: block; white-space: pre; }
+    .json .k { color: var(--code-key); }
+    .json .s { color: var(--code-str); }
+    .json .n { color: var(--code-num); }
+    .json .p { color: var(--code-dim); }
+    .json .hl { background: rgba(248, 113, 113, 0.16); box-shadow: -18px 0 0 rgba(248, 113, 113, 0.16), 18px 0 0 rgba(248, 113, 113, 0.16); }
+    .json .hl .s { color: #fca5a5; }
+    .caret { display: inline-block; width: 7px; height: 1.1em; vertical-align: text-bottom; background: var(--code-key); animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .demo-caption { margin-top: 14px; font-size: 14px; color: var(--muted); }
+    .demo-caption a { color: var(--accent); text-underline-offset: 3px; }
+    @container (max-width: 600px) {
+      .demo-bar .title { display: none; }
+      .demo-body { grid-template-columns: minmax(0, 1fr); padding: 22px 16px; gap: 14px; }
+      .receipt { transform: rotate(-1deg); }
+      .pipe-arrow { justify-self: center; transform: rotate(90deg); }
+      .json { font-size: 12px; }
+    }
+    /* How it works / Live app switch */
+    .mode { display: flex; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+    .mode-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font: 500 12px/1 var(--mono); color: var(--muted);
+      background: none; border: 0; border-radius: 999px; padding: 6px 11px; cursor: pointer;
+      transition: color .2s, background-color .2s, box-shadow .2s;
+    }
+    .mode-btn:hover { color: var(--ink); }
+    .mode-btn.is-active { color: var(--ink); background: var(--surface); box-shadow: 0 0 0 1px var(--line), 0 1px 2px rgba(0, 0, 0, 0.06); }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--live); }
+    .mode-btn.nudge { animation: nudge 1.6s ease-out 3; }
+    @keyframes nudge { 0% { box-shadow: 0 0 0 0 var(--accent-glow); } 100% { box-shadow: 0 0 0 10px transparent; } }
+
+    /* The two acts share one stage; the hidden one sits on top, invisible, so its size is known */
+    .demo-stage { position: relative; overflow: hidden; }
+    .demo-stage[data-mode="scan"] .demo-live,
+    .demo-stage[data-mode="live"] .scan-view {
+      position: absolute; top: 0; left: 0; right: 0;
+      visibility: hidden; pointer-events: none;
+    }
+    .scan-cta { display: flex; justify-content: center; padding: 0 24px 22px; }
+    .to-live {
+      font: 500 13px/1 var(--mono); color: var(--bg); background: var(--accent);
+      border: 0; border-radius: 999px; padding: 10px 16px; cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .to-live:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -10px var(--accent-glow); }
+    .to-live span { display: inline-block; transition: transform .2s; }
+    .to-live:hover span { transform: translateX(3px); }
+    .demo-live .browser-view { border-top: 0; }
+    .demo-caption b { color: var(--ink); font-weight: 600; }
+    .live-tag { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-weight: 500; white-space: nowrap; }
+    .live-tag::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--live); }
+
+    /* ── LIVE APP FRAMES ── */
+    .browser-view { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; }
+
+    /* The app renders at its real size and is scaled to fit the frame (--s is set by script). */
+    .browser-view iframe {
+      position: absolute; top: 0; left: 0; border: 0;
+      width: 1280px; height: 800px;
+      transform: scale(var(--s, 0.5)); transform-origin: 0 0;
+    }
+
+    /* ── PROJECT SHOWCASE ── one device, one live app per project. It stays beside the project you're
+       reading and turns into that project's device as you scroll: an iPhone for the gym app, an
+       iMac for the web app. Sizes here are placeholders; the script measures the column and sets
+       the real ones. */
+    .p-meta.inline { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding-top: 0; margin-bottom: 6px; }
+    .p-meta.inline .badge { margin-top: 0; }
+    .device-note { margin-top: 14px; font: 500 12px/1.5 var(--mono); color: var(--accent); }
+    .see-demo { display: inline-block; margin-top: 10px; font: 500 12px/1 var(--mono); color: var(--accent); text-decoration: none; }
+    .see-demo:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    /* overflow-anchor: when the stacked device changes height, the page below should move, not the scroll position */
+    .show { --morph-ease: cubic-bezier(0.65, 0, 0.25, 1); display: grid; gap: 18px; margin-bottom: 40px; overflow-anchor: none; }
+    .show-stage { position: relative; order: -1; min-width: 0; scroll-margin-top: 16px; }
+    .show-steps { display: grid; gap: 8px; }
+    .show-step {
+      padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px;
+      background: var(--surface); cursor: pointer;
+      transition: border-color .2s, opacity .35s;
+    }
+    .show-step:hover { border-color: var(--faint); }
+    .show-step.is-active { border-color: var(--accent); cursor: default; }
+    .show-step:not(.is-active) .step-more { display: none; }
+    .step-body { position: relative; }
+    .step-body h3 { font-size: 1.15rem; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; }
+    .step-more > p:not(.device-note) { margin-top: 10px; color: var(--muted); font-size: 15px; }
+
+    /* Wide enough: the copy scrolls on the left while the device stays pinned beside it */
+    .show.is-split { grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); gap: 32px; align-items: start; }
+    .show.is-split .show-stage { order: 0; position: sticky; top: var(--stage-top, 40px); }
+    .show.is-split .show-steps { gap: 0; }
+    .show.is-split .show-step {
+      min-height: 78vh; display: flex; flex-direction: column; justify-content: center;
+      padding: 40px 0; border: 0; border-radius: 0; background: none; cursor: default; opacity: 0.3;
+    }
+    .show.is-split .show-step.is-active { opacity: 1; }
+    .show.is-split .show-step .step-more { display: block; }
+    .show.is-split .show-step h3 { font-size: 1.35rem; }
+
+    /* The slot holds the device plus, for the iMac, its stand. The old app fades out, the device
+       changes shape, then the new app fades in. */
+    .morph-frame { display: grid; place-items: center; padding-bottom: 46px; }
+    .show.is-split .morph-frame { padding-top: 46px; }
+    .morph-slot {
+      position: relative; width: 290px; height: 610px;
+      transition: width .75s var(--morph-ease) .12s, height .75s var(--morph-ease) .12s;
+    }
+    .morph {
+      position: absolute; top: 0; left: 0; right: 0; bottom: var(--stand, 0px); z-index: 1;
+      display: flex; flex-direction: column; padding: 9px;
+      border-radius: 46px; background: #0d0f11; overflow: hidden;
+      box-shadow: 0 0 0 1px var(--line), inset 0 0 0 1px rgba(255, 255, 255, 0.07), 0 34px 60px -30px rgba(0, 0, 0, 0.55);
+      transition: border-radius .75s var(--morph-ease) .12s, padding .75s var(--morph-ease) .12s, bottom .75s var(--morph-ease) .12s;
+    }
+    .morph[data-shape="desktop"] { border-radius: 12px; padding: 9px 9px 0; }
+    /* The phone's notch shrinks into the iMac's camera */
+    .morph::after {
+      content: ''; position: absolute; top: 17px; left: 50%; z-index: 2; transform: translateX(-50%);
+      width: 74px; height: 21px; border-radius: 12px; background: #0d0f11; pointer-events: none;
+      transition: top .75s var(--morph-ease) .12s, width .75s var(--morph-ease) .12s, height .75s var(--morph-ease) .12s;
+    }
+    .morph[data-shape="desktop"]::after { top: 3px; width: 4px; height: 4px; background: #2c3035; }
+    .morph-screen {
+      position: relative; flex: 1; min-height: 0; overflow: hidden; border-radius: 37px; background: #0b0d0f;
+      transition: border-radius .75s var(--morph-ease) .12s;
+    }
+    .morph[data-shape="desktop"] .morph-screen { border-radius: 2px; }
+    .morph-screen::before {
+      content: 'Starting the app…'; position: absolute; inset: 0; display: grid; place-items: center;
+      font: 500 12px/1 var(--mono); color: #858a91; opacity: 0; transition: opacity .2s;
+    }
+    .morph.is-waiting .morph-screen::before { opacity: 1; transition-delay: .9s; }
+    .morph-chin {
+      flex: none; height: 0; margin: 0 -9px;
+      background: linear-gradient(#eef0f2, #d0d3d7);
+      transition: height .75s var(--morph-ease) .12s;
+    }
+    .morph[data-shape="desktop"] .morph-chin { height: var(--chin, 48px); }
+    .morph-stand {
+      position: absolute; left: 50%; bottom: 0; width: 34%; height: var(--stand, 0px);
+      transform: translateX(-50%); opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .morph-stand::before { /* neck */
+      content: ''; position: absolute; top: 0; bottom: 4px; left: 10%; right: 10%;
+      background: linear-gradient(90deg, #a8adb3, #dfe2e5 40%, #eef0f2 55%, #b4b9be);
+      clip-path: polygon(5% 0, 95% 0, 100% 100%, 0 100%);
+    }
+    .morph-stand::after { /* foot */
+      content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; border-radius: 3px 3px 2px 2px;
+      background: linear-gradient(#dcdfe2, #9ea3a9); box-shadow: 0 10px 18px -6px rgba(0, 0, 0, 0.35);
+    }
+    .morph[data-shape="desktop"] ~ .morph-stand { opacity: 1; transition: opacity .35s ease .7s; }
+
+    .morph-app {
+      position: absolute; inset: 0; opacity: 0; visibility: hidden;
+      transition: opacity .2s ease, visibility 0s linear .2s;
+    }
+    .morph-app.is-on { opacity: 1; visibility: visible; transition: opacity .4s ease .75s, visibility 0s; }
+    .morph-app iframe {
+      position: absolute; top: 0; left: 0; border: 0;
+      transform: scale(var(--s, 0.7)); transform-origin: 0 0;
+      opacity: 0; pointer-events: none; transition: opacity .3s;
+    }
+    .morph-app.is-loaded iframe { opacity: 1; }
+    .morph.is-live .morph-app.is-on iframe { pointer-events: auto; }
+    /* iPhone status bar, drawn over the top of the app like iOS does. Sizes are in the app's own
+       pixels (--ps is the phone's scale); difference blending keeps it readable on light and dark apps. */
+    .morph-status {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 2; height: calc(47px * var(--ps, 0.7));
+      display: flex; align-items: center; justify-content: space-between; padding: 0 calc(30px * var(--ps, 0.7)) 0 calc(38px * var(--ps, 0.7));
+      font: 600 calc(16px * var(--ps, 0.7))/1 -apple-system, BlinkMacSystemFont, 'SF Pro Text', var(--sans);
+      color: #fff; mix-blend-mode: difference; pointer-events: none;
+      transition: opacity .3s ease .8s;
+    }
+    .morph-status svg { width: calc(50px * var(--ps, 0.7)); height: auto; }
+    .morph[data-shape="desktop"] .morph-status { opacity: 0; transition: opacity .15s; }
+
+    /* Scrolling over the device scrolls the page. A click hands the phone to you, or opens the iMac full size. */
+    .morph-cover {
+      position: absolute; inset: 0; z-index: 3;
+      display: flex; align-items: center; justify-content: center;
+      border: 0; border-radius: inherit; background: none; cursor: pointer;
+    }
+    .morph-cover:focus-visible { outline-offset: -4px; }
+    .morph-cover span {
+      font: 500 12px/1 var(--mono); color: #fff; background: rgba(13, 15, 17, 0.84);
+      padding: 8px 12px; border-radius: 999px;
+      opacity: 0; transform: translateY(6px); transition: opacity .2s, transform .2s;
+    }
+    .morph-cover:hover span, .morph-cover:focus-visible span { opacity: 1; transform: none; }
+    @media (hover: none) { .morph-cover span { opacity: 1; transform: none; } }
+    .morph.is-live .morph-cover { display: none; }
+
+    .morph-foot {
+      position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 14px; margin-top: 14px; white-space: nowrap;
+      font: 500 11px/1 var(--mono); color: var(--faint);
+    }
+    .morph-full {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px;
+      font: 500 11px/1 var(--mono); color: var(--accent);
+      background: none; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+      transition: border-color .2s;
+    }
+    .morph-full:hover { border-color: var(--accent); }
+
+    /* Full size: the device lifts out of the page and grows to the app's real size */
+    html.morph-open { overflow: hidden; }
+    .morph-backdrop {
+      position: fixed; inset: 0; z-index: 290;
+      background: rgba(10, 12, 14, 0.62);
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+      opacity: 0; transition: opacity .35s;
+    }
+    .morph-backdrop.is-on { opacity: 1; }
+    .morph-backdrop[hidden] { display: none; }
+    .morph-close {
+      position: absolute; top: 16px; right: 16px;
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px;
+      font: 500 12px/1 var(--mono); color: #fff;
+      background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.22); border-radius: 999px; cursor: pointer;
+    }
+    .morph-close:hover { background: rgba(255, 255, 255, 0.18); }
+    .morph-close kbd { color: #fff; background: none; border-color: rgba(255, 255, 255, 0.3); }
+    .show-stage.is-full { z-index: 300; }
+    .show-stage.is-full .morph-foot, .show-stage.is-full .morph-stand { visibility: hidden; }
+    .morph.is-flying {
+      position: fixed; inset: auto;
+      transition: top .55s var(--morph-ease), left .55s var(--morph-ease), width .55s var(--morph-ease), height .55s var(--morph-ease);
+    }
+    .morph.is-flying .morph-app iframe { transition: transform .55s var(--morph-ease), opacity .3s; }
+    .morph.is-flying .morph-chin { transition: height .55s var(--morph-ease); }
+    .morph.is-flying .morph-status { transition: height .55s var(--morph-ease), padding .55s var(--morph-ease), font-size .55s var(--morph-ease); }
+    .morph.is-flying .morph-status svg { transition: width .55s var(--morph-ease); }
+
+    /* About */
+    .about p { color: var(--muted); max-width: 62ch; }
+    .about p + p { margin-top: 16px; }
+    .about strong { color: var(--ink); font-weight: 600; }
+    .facts {
+      margin-top: 32px;
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+      background: var(--surface);
+    }
+    .fact { padding: 16px 18px; border-bottom: 1px solid var(--line); }
+    .fact:nth-child(odd) { border-right: 1px solid var(--line); }
+    .fact:nth-last-child(-n+2) { border-bottom: 0; }
+    .fact dt { font: 500 11px/1 var(--mono); text-transform: uppercase; letter-spacing: 0.12em; color: var(--faint); }
+    .fact dd { margin-top: 8px; font-size: 15px; font-weight: 500; }
+
+    /* Projects */
+    .projects { display: flex; flex-direction: column; gap: 6px; margin: 0 -20px; }
+    .project {
+      position: relative;
+      display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 24px;
+      padding: 22px 20px; border-radius: 12px;
+      border: 1px solid transparent;
+      transition: background-color .2s, border-color .2s, box-shadow .9s;
+    }
+    .project.is-spotlit { background-color: var(--surface); border-color: var(--accent); box-shadow: 0 0 0 5px var(--accent-soft); }
+    .project::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit;
+      background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), var(--accent-soft), transparent 65%);
+      opacity: 0; transition: opacity .3s; pointer-events: none;
+    }
+    .project:hover::before { opacity: 1; }
+    .project:hover { background-color: var(--surface); border-color: var(--line); }
+    .project > * { position: relative; }
+    .p-meta { font: 400 12px/1.6 var(--mono); color: var(--faint); padding-top: 4px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 8px; font: 500 11px/1 var(--mono); color: var(--muted);
+    }
+    .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--faint); }
+    .badge.live::before { background: var(--live); }
+    .badge.dev::before { background: var(--dev); }
+    .p-body h3 { font-size: 1.15rem; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; }
+    .p-body h3 a { text-decoration: none; }
+    .p-body h3 a:hover { color: var(--accent); }
+    .p-body h3 .arrow { display: inline-block; font-size: .9em; color: var(--accent); transition: transform .2s; }
+    .p-body h3 a:hover .arrow { transform: translate(2px, -2px); }
+    .kicker { margin-top: 2px; font-size: 14px; color: var(--faint); }
+    .p-body > p:not(.kicker) { margin-top: 10px; color: var(--muted); font-size: 15px; }
+    .stack { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
+    .stack li {
+      font: 500 12px/1 var(--mono); color: var(--accent);
+      background: var(--accent-soft); padding: 6px 9px; border-radius: 6px;
+    }
+    .more { margin-top: 24px; font-size: 15px; color: var(--muted); }
+    .more a { color: var(--accent); font-weight: 500; text-underline-offset: 3px; }
+
+    /* Experience */
+    .timeline { position: relative; margin-left: 4px; }
+    .tl-line { position: absolute; left: 0; top: 6px; bottom: 6px; width: 1px; background: var(--line); transform-origin: top; }
+    .tl-fill { position: absolute; left: 0; top: 6px; bottom: 6px; width: 1px; background: var(--accent); transform-origin: top; transform: scaleY(0); }
+    .jobs { list-style: none; }
+    .job { position: relative; padding: 0 0 40px 28px; }
+    .job:last-child { padding-bottom: 0; }
+    .job::before {
+      content: ''; position: absolute; left: -4px; top: 8px;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--bg); border: 2px solid var(--accent);
+    }
+    .job h3 { font-size: 1.08rem; font-weight: 600; line-height: 1.4; }
+    .job .org { font-size: 14px; color: var(--faint); margin-top: 2px; }
+    .job > p { margin-top: 10px; color: var(--muted); font-size: 15px; max-width: 62ch; }
+    .job ul.pts { margin-top: 12px; list-style: none; display: grid; gap: 6px; }
+    .job ul.pts li { position: relative; padding-left: 20px; font-size: 15px; color: var(--muted); }
+    .job ul.pts li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); font-size: 13px; top: 1px; }
+
+    /* Skills */
+    .skills { border-top: 1px solid var(--line); }
+    .skill-row {
+      display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 24px;
+      padding: 16px 0; border-bottom: 1px solid var(--line);
+    }
+    .skill-row dt { font: 500 12px/1.9 var(--mono); text-transform: uppercase; letter-spacing: .1em; color: var(--faint); }
+    .skill-row dd { font-size: 15px; }
+    .skill-row dd span:not(:last-child)::after { content: ' · '; color: var(--faint); }
+
+    /* Education */
+    .edu { display: grid; gap: 12px; }
+    .edu-main {
+      padding: 20px 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface);
+      display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap;
+    }
+    .edu-main h3 { font-size: 1.05rem; font-weight: 600; }
+    .edu-main .school { font-size: 14px; color: var(--muted); margin-top: 2px; }
+    .edu-main .yrs { font: 400 12px/1 var(--mono); color: var(--faint); }
+    .edu-extra { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .edu-extra li { padding: 14px 18px; border: 1px solid var(--line); border-radius: 12px; font-size: 14px; color: var(--muted); }
+    .edu-extra li b { display: block; color: var(--ink); font-weight: 600; font-size: 15px; }
+    .coursework { margin-top: 8px; font-size: 15px; color: var(--muted); }
+    .coursework b { color: var(--ink); font-weight: 600; }
+
+    footer {
+      padding-top: 28px; border-top: 1px solid var(--line);
+      font: 400 12px/1.8 var(--mono); color: var(--faint);
+    }
+    footer a { color: var(--muted); text-underline-offset: 3px; }
+
+    /* ── "THE PAGE GETS SCANNED" ── a soft beam that sweeps down each project row once */
+    .scan-beam {
+      position: absolute; left: 0; right: 0; top: 0; height: 40px; z-index: 3;
+      pointer-events: none; opacity: 0;
+      background: linear-gradient(to bottom, transparent, var(--accent-soft));
+      border-bottom: 2px solid transparent;
+      border-image: linear-gradient(90deg, transparent, var(--accent) 18%, var(--accent) 82%, transparent) 1;
+      filter: drop-shadow(0 2px 8px var(--accent-glow));
+    }
+
+    /* ── TERMINAL (press ~) ── */
+    .term-hint { margin-top: 6px; }
+    kbd {
+      font: 500 11px/1 var(--mono); padding: 2px 6px; border-radius: 4px;
+      border: 1px solid var(--line); border-bottom-width: 2px; color: var(--ink); background: var(--surface);
+    }
+    .term-open { font: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+    .term {
+      position: fixed; right: 24px; bottom: 24px; z-index: 200;
+      width: min(580px, calc(100vw - 32px)); height: min(380px, calc(100vh - 48px));
+      display: flex; flex-direction: column;
+      background: var(--code-bg); color: var(--code-ink);
+      border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; overflow: hidden;
+      box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.55);
+      font: 400 13px/1.6 var(--mono);
+    }
+    .term[hidden] { display: none; }
+
+    /* Terminal launcher in the sidebar: a tiny terminal that types commands to itself.
+       Clicking it runs the one on screen, and the real terminal grows out of it. */
+    .term-chip {
+      display: flex; align-items: center; gap: 12px; width: 100%; max-width: 300px; margin-bottom: 22px; padding: 10px 12px;
+      font: 400 12.5px/1 var(--mono); color: var(--code-ink); text-align: left;
+      background: var(--code-bg); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 10px;
+      box-shadow: 0 12px 28px -18px rgba(15, 23, 42, 0.6);
+      cursor: pointer; transition: transform .25s, box-shadow .25s;
+    }
+    .term-chip:hover, .term-chip:focus-visible { transform: translateY(-2px); box-shadow: 0 0 0 4px var(--accent-soft), 0 16px 34px -16px var(--accent-glow); }
+    .term-chip.is-open { visibility: hidden; }
+    .tc-dots { display: flex; gap: 5px; flex: none; }
+    .tc-dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.14); transition: background-color .3s; }
+    .term-chip.is-on .tc-dots i:nth-child(1) { background: #ff5f57; }
+    .term-chip.is-on .tc-dots i:nth-child(2) { background: #febc2e; transition-delay: .18s; }
+    .term-chip.is-on .tc-dots i:nth-child(3) { background: #28c840; transition-delay: .36s; }
+    .tc-line { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; }
+    .tc-prompt { color: var(--code-key); }
+    .tc-caret {
+      display: inline-block; width: 7px; height: 1.2em; margin-left: 1px; vertical-align: -0.25em;
+      background: var(--code-key); animation: blink 1s steps(1) infinite;
+    }
+    .tc-hint { flex: none; font-size: 11px; color: var(--code-dim); }
+    .tc-hint kbd { color: var(--code-ink); background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.16); }
+    .tc-run { display: none; color: var(--code-key); }
+    .term-chip:hover .tc-hint kbd, .term-chip:focus-visible .tc-hint kbd { display: none; }
+    .term-chip:hover .tc-run, .term-chip:focus-visible .tc-run { display: inline; }
+    @media (min-width: 961px) and (max-height: 660px) { .term-chip { display: none; } }
+    .term-bar {
+      display: flex; align-items: center; gap: 12px; padding: 9px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07); color: var(--code-dim); font-size: 12px;
+    }
+    .term-bar .dots { display: flex; gap: 6px; }
+    .term-bar .dots i { width: 11px; height: 11px; border-radius: 50%; background: rgba(255, 255, 255, 0.14); }
+    .term-x {
+      position: relative; width: 11px; height: 11px; padding: 0;
+      border: 0; border-radius: 50%; background: #ff5f57; cursor: pointer;
+    }
+    .term-x::before { content: ''; position: absolute; inset: -6px; } /* a bigger target than the dot */
+    .term-x::after {
+      content: '×'; position: absolute; inset: 0; display: grid; place-items: center;
+      font: 700 10px/1 var(--sans); color: rgba(0, 0, 0, 0.6); opacity: 0; transition: opacity .15s;
+    }
+    .term-bar:hover .term-x::after, .term-x:focus-visible::after { opacity: 1; }
+    .term-title { flex: 1; }
+    .term-close { font: inherit; color: var(--code-dim); background: none; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 5px; padding: 2px 7px; cursor: pointer; }
+    .term-close:hover { color: var(--code-ink); }
+    /* The bot in the terminal bar reacts to each command. Plain elements and CSS only: no images,
+       no library, and nothing animates unless the terminal is open. */
+    .bot { position: relative; flex: none; width: 38px; height: 32px; }
+    .bot-antenna { position: absolute; top: 0; left: 50%; width: 1px; height: 6px; margin-left: -0.5px; background: rgba(255, 255, 255, 0.25); }
+    .bot-antenna::after {
+      content: ''; position: absolute; top: -4px; left: 50%; width: 5px; height: 5px; margin-left: -2.5px;
+      border-radius: 50%; background: var(--code-key); box-shadow: 0 0 6px var(--code-key);
+      animation: botPulse 2.6s ease-in-out infinite;
+    }
+    .bot-head {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 26px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center; gap: 6px; padding-bottom: 6px;
+      background: #1c2733; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08); overflow: hidden;
+      transition: transform .25s, background-color .25s;
+    }
+    .bot-eye {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--code-key);
+      transition: height .2s, width .2s, border-radius .2s, transform .2s, background-color .2s;
+      animation: botBlink 5.2s infinite;
+    }
+    .bot-mouth {
+      position: absolute; bottom: 5px; left: 50%; width: 11px; height: 2.5px; margin-left: -5.5px;
+      border-radius: 2px; background: rgba(255, 255, 255, 0.45);
+      transition: height .2s, width .2s, margin .2s, border-radius .2s, background-color .2s;
+    }
+    @keyframes botBlink { 0%, 92%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.15); } }
+    @keyframes botPulse { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+    @keyframes botBounce { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-3px); } }
+    @keyframes botScan { 0% { top: 2px; opacity: 0; } 15%, 85% { opacity: 1; } 100% { top: 21px; opacity: 0; } }
+
+    /* Working on it */
+    .bot[data-mood="thinking"] .bot-eye { height: 2.5px; border-radius: 2px; transform: translateY(-1px); animation: none; }
+    .bot[data-mood="thinking"] .bot-mouth { width: 6px; margin-left: -3px; }
+    .bot[data-mood="thinking"] .bot-antenna::after { animation-duration: .5s; }
+    /* Pleased: eyes curve up and it grins */
+    .bot[data-mood="happy"] .bot-eye { height: 4px; border-radius: 4px 4px 0 0; animation: none; }
+    .bot[data-mood="happy"] .bot-mouth { height: 8px; width: 14px; margin-left: -7px; border-radius: 0 0 9px 9px; background: var(--code-key); }
+    .bot[data-mood="happy"] .bot-head { animation: botBounce .5s ease-out 2; }
+    /* Listening while you type */
+    .bot[data-mood="listening"] .bot-eye { width: 7.5px; height: 7.5px; animation: none; }
+    /* Scanning, for the receipt replay */
+    .bot[data-mood="scan"] .bot-eye { width: 9px; height: 2.5px; border-radius: 1px; background: var(--code-str); animation: none; }
+    .bot[data-mood="scan"] .bot-head::after {
+      content: ''; position: absolute; left: 2px; right: 2px; height: 2px;
+      background: var(--code-key); box-shadow: 0 0 8px var(--code-key); animation: botScan 1.1s linear infinite;
+    }
+    /* Something went wrong: head tilts, eyes go cross */
+    .bot[data-mood="oops"] .bot-head { transform: rotate(-7deg); }
+    .bot[data-mood="oops"] .bot-eye { width: 8px; height: 2.5px; border-radius: 1px; background: var(--flag); animation: none; }
+    .bot[data-mood="oops"] .bot-eye.left { transform: rotate(20deg); }
+    .bot[data-mood="oops"] .bot-eye.right { transform: rotate(-20deg); }
+    .bot[data-mood="oops"] .bot-mouth { width: 9px; height: 6px; margin-left: -4.5px; border-radius: 7px 7px 0 0; background: var(--flag); }
+    /* Dozing off */
+    .bot[data-mood="sleep"] .bot-eye { height: 2.5px; border-radius: 2px; opacity: .6; animation: none; }
+    .bot[data-mood="sleep"] .bot-mouth { width: 5px; margin-left: -2.5px; opacity: .5; }
+    .bot[data-mood="sleep"] .bot-antenna::after { animation-duration: 4.5s; opacity: .4; }
+
+    .term-body { flex: 1; overflow-y: auto; padding: 12px 14px; }
+    .term-out > div { white-space: pre-wrap; word-break: break-word; }
+    .term-out .cmd { color: var(--code-key); }
+    .term-out .dim { color: var(--code-dim); }
+    .term-out .hl { color: var(--code-str); }
+    .term-out .err { color: #ff8a80; }
+    .term-out a { color: var(--code-key); text-underline-offset: 3px; }
+    .term-line { display: flex; gap: 8px; align-items: center; }
+    .term-prompt { color: var(--code-key); white-space: nowrap; line-height: 1.6; }
+    .term-input {
+      flex: 1; min-width: 0; font: inherit; line-height: 1.6; height: 1.6em;
+      color: var(--code-ink); caret-color: var(--code-key);
+      background: none; border: 0; outline: none; padding: 0;
+    }
+    @media (max-width: 640px) {
+      .term { right: 16px; bottom: 16px; height: min(360px, calc(100vh - 32px)); font-size: 12px; }
+      .term-prompt { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .status .dot::after { animation: none; }
+      .tl-fill { transform: none; }
+      .morph-slot, .morph, .morph *, .morph::after, .morph-stand, .morph-backdrop { transition: none !important; }
+      .bot *, .bot *::after { animation: none !important; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 16px; }
+      .side { position: static; height: auto; padding: 56px 0 8px; display: block; }
+      .blurb { max-width: 46ch; }
+      .toc { display: none; }
+      .side-bottom { margin-top: 28px; }
+      main { padding-top: 40px; }
+      section { padding-bottom: 64px; }
+      .demo { padding-bottom: 56px; }
+      .projects { margin: 0; }
+    }
+    @media (max-width: 640px) {
+      .project { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 18px 16px; }
+      .projects { margin: 0 -16px; }
+      .project { border-radius: 0; }
+      .p-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; padding-top: 0; }
+      .p-meta br { display: none; }
+      .badge { margin-top: 0; }
+      .facts { grid-template-columns: minmax(0, 1fr); }
+      .fact:nth-child(odd) { border-right: 0; }
+      .fact:nth-last-child(2) { border-bottom: 1px solid var(--line); }
+      .skill-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+      .edu-extra { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- SIDEBAR -->
+  <header class="side">
+    <div>
+      <div class="status"><span class="dot"></span>Open to co-op &amp; internship roles</div>
+      <h1 class="name" aria-label="Ebrahim Arefi">Ebrahim Arefi</h1>
+      <p class="role">Software Developer · CS student at UNB</p>
+      <p class="blurb">I build full-stack apps with AI integrations, OCR pipelines, and structured data tools.</p>
+      <nav aria-label="Sections">
+        <ul class="toc">
+          <li><a href="#about"><span class="bar"></span>About</a></li>
+          <li><a href="#projects"><span class="bar"></span>Projects</a></li>
+          <li><a href="#experience"><span class="bar"></span>Experience</a></li>
+          <li><a href="#skills"><span class="bar"></span>Skills</a></li>
+          <li><a href="#education"><span class="bar"></span>Education</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="side-bottom">
+      <button type="button" class="term-chip" aria-label="Open the terminal (or press ~ anywhere)">
+        <span class="tc-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="tc-line" aria-hidden="true"><span class="tc-prompt">~ $</span> <span class="tc-cmd">whoami</span><span class="tc-caret"></span></span>
+        <span class="tc-hint" aria-hidden="true"><kbd>~</kbd><span class="tc-run">↵ open</span></span>
+      </button>
+      <ul class="links">
+        <li><a href="https://github.com/Ebi-Ar" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+          GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/ebrahim-arefi-9a789b203" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn</a></li>
+        <li><a href="mailto:ebrahimarefi11@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
+          Email</a></li>
+      </ul>
+      <p class="where">Fredericton, NB · ebrahimarefi11@gmail.com</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- DEMO -->
+    <section class="demo" id="demo" aria-label="Invoice Manager">
+      <div class="demo-card">
+        <div class="demo-bar">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="title">invoice-manager</span>
+          <div class="mode" role="tablist" aria-label="Invoice Manager view">
+            <button class="mode-btn is-active" type="button" role="tab" aria-selected="true" data-mode="scan">How it works</button>
+            <button class="mode-btn" type="button" role="tab" aria-selected="false" data-mode="live"><span class="live-dot" aria-hidden="true"></span>Live app</button>
+          </div>
+          <button class="replay" type="button" aria-label="Replay the scan">↻</button>
+        </div>
+        <div class="demo-stage" data-mode="scan">
+          <div class="scan-view">
+            <div class="demo-body">
+          <div class="receipt" aria-hidden="true">
+            <div class="scanline"></div>
+            <p class="r-head" data-scan>HARBOUR STREET CAFE</p>
+            <p class="r-sub" data-scan>2026-09-12 · Order #4418</p>
+            <ul>
+              <li data-scan><span>2 x Cappuccino</span><span>9.50</span></li>
+              <li data-scan><span>Avocado Toast</span><span>11.50</span></li>
+              <li data-scan><span>Blueberry Muffin</span><span>3.95</span></li>
+              <li data-scan class="dup"><span class="mark"></span><span class="tag">duplicate?</span><span>Cappuccino</span><span>4.75</span></li>
+              <li data-scan><span>Orange Juice</span><span>4.25</span></li>
+            </ul>
+            <p class="r-total" data-scan><span>TOTAL</span><span>39.04</span></p>
+          </div>
+          <div class="pipe-arrow" aria-hidden="true">→</div>
+<pre class="json" aria-label="What the backend returned for this receipt"><code><span class="jl"><span class="p">{</span></span><span class="jl">  <span class="k">"store"</span><span class="p">:</span> <span class="s">"HARBOUR STREET CAFE"</span><span class="p">,</span></span><span class="jl">  <span class="k">"date"</span><span class="p">:</span> <span class="s">"2026-09-12"</span><span class="p">,</span></span><span class="jl">  <span class="k">"items"</span><span class="p">:</span> <span class="p">[ …5 items ]</span><span class="p">,</span></span><span class="jl">  <span class="k">"subtotal"</span><span class="p">:</span> <span class="n">33.95</span><span class="p">,</span></span><span class="jl">  <span class="k">"vat"</span><span class="p">:</span> <span class="n">5.09</span><span class="p">,</span></span><span class="jl">  <span class="k">"total"</span><span class="p">:</span> <span class="n">39.04</span><span class="p">,</span></span><span class="jl">  <span class="k">"payment_method"</span><span class="p">:</span> <span class="s">"VISA"</span><span class="p">,</span></span><span class="jl">  <span class="k">"anomalies"</span><span class="p">:</span> <span class="p">[</span></span><span class="jl hl">    <span class="s">"⚠️ Duplicate item: Cappuccino"</span></span><span class="jl">  <span class="p">]</span></span><span class="jl"><span class="p">}</span> <span class="caret"></span></span></code></pre>
+            </div>
+            <div class="scan-cta">
+              <button class="to-live" type="button">Now run this receipt in the real app <span aria-hidden="true">→</span></button>
+            </div>
+          </div>
+          <div class="demo-live">
+            <div class="browser-view" data-w="1024" data-h="720">
+              <iframe data-src="apps/invoice/index.html" title="Invoice Manager, the real app running a sample receipt"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="demo-caption" data-for="scan">This is what my <a href="#invoice">Invoice Manager</a> backend actually returned for this receipt: Google Vision reads it, GPT-4o mini structures it, and my Java rules flag the second Cappuccino. Switch to <b>Live app</b> to watch the real app do it.</p>
+      <p class="demo-caption" data-for="live" hidden>The real <a href="#invoice">Invoice Manager</a>, processing the same café receipt. Try the other samples in the green bar, or open <b>All Receipts</b> for the history and spending chart.</p>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="about">
+      <h2 class="sec-head"><span class="n">01</span><span class="sec-title">About</span><span class="rule"></span></h2>
+      <p>I'm a third-year <strong>Computer Science student at the University of New Brunswick</strong> with hands-on experience building full-stack applications end to end: front-end interfaces, backend services, third-party API integrations, and structured data pipelines. My recent projects combine <strong>OCR, AI APIs, and chart-based reporting</strong> to turn messy, mixed-format input into organized, checkable output.</p>
+      <p>Alongside coursework in data structures, algorithms, and database design, I'm also completing a minor in Business Administration and a Diploma in Technology Management &amp; Entrepreneurship, which shapes how I think about building tools people actually use, not just code that runs.</p>
+      <dl class="facts">
+        <div class="fact"><dt>Studying</dt><dd>BSc Computer Science, UNB</dd></div>
+        <div class="fact"><dt>Building</dt><dd>A social gym tracking app</dd></div>
+        <div class="fact"><dt>Main stack</dt><dd>TypeScript, React, Node.js</dd></div>
+        <div class="fact"><dt>Looking for</dt><dd>Software dev co-op / internship</dd></div>
+      </dl>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <h2 class="sec-head"><span class="n">02</span><span class="sec-title">Projects</span><span class="rule"></span></h2>
+      <!-- One device, one live app per project. It stays beside the project you're reading and turns into its device: an iPhone or an iMac. -->
+      <div class="show">
+        <div class="show-steps">
+
+          <article class="show-step is-active" tabindex="0">
+            <div class="step-body">
+              <div class="p-meta inline">2026 – Present <span class="badge dev">In development</span></div>
+              <h3>Social Gym Tracking App</h3>
+              <p class="kicker">Social fitness app for iOS</p>
+              <div class="step-more">
+                <p>A social, gamified workout tracking app with logging, progress charts, leaderboards, challenges, achievements, and a trainer marketplace, aimed at UNB students as the initial launch base.</p>
+                <p>Each profile is a FIFA-style player card with six body-part ratings. Stats measure what you trained, not how much you lifted: entered weight is never scored, which removes the easiest way to cheat the leaderboard.</p>
+                <ul class="stack"><li>React</li><li>TypeScript</li><li>Vite</li><li>Supabase (Auth + Postgres RLS)</li><li>Prisma</li><li>Capacitor (iOS)</li></ul>
+                <p class="device-note">The real app with a sample account. Scroll it, switch tabs, or start a workout.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="show-step" tabindex="0">
+            <div class="step-body">
+              <div class="p-meta inline">2024 – Present <span class="badge dev">In development</span></div>
+              <h3>Diaspora Food Analyzer</h3>
+              <p class="kicker">AI cultural analysis platform</p>
+              <div class="step-more">
+                <p>An AI-powered platform that accepts text, image, audio, and PDF uploads and returns structured analysis. Uses OCR and transcription to pull data from mixed source material, then organizes it into JSON output, chart-based summaries, and a manual annotation layer for review and quality checks.</p>
+                <ul class="stack"><li>React (TS)</li><li>Vite</li><li>Tailwind CSS</li><li>Node.js</li><li>OpenAI API</li><li>Google Vision OCR</li><li>Chart.js</li></ul>
+                <p class="device-note">Try a sample in the green bar: a fieldnote PDF, a handwritten recipe card (Google Vision OCR) or an interview clip (Whisper), then the GPT analysis and charts.</p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="show-stage">
+          <div class="morph-frame">
+            <div class="morph-slot">
+              <div class="morph" data-shape="phone">
+                <div class="morph-screen">
+                  <div class="morph-status" aria-hidden="true">
+                    <span>9:41</span>
+                    <svg viewBox="0 0 50 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0.5" width="3" height="11.5" rx="1"/><rect x="25.5" y="0.5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="27.5" y="2.5" width="15" height="7" rx="1.5"/><rect x="47.5" y="4" width="1.8" height="4" rx=".9" opacity=".45"/></svg>
+                  </div>
+                  <div class="morph-app is-on" data-shape="phone" data-w="390" data-h="844" data-label="Everyday Gym · sample account">
+                    <iframe data-src="apps/gymm/index.html?start=/profile" title="Gym app, live demo with a sample account"></iframe>
+                  </div>
+                  <div class="morph-app" data-shape="desktop" data-w="1024" data-h="576" data-label="Food Analyzer · sample data">
+                    <iframe data-src="apps/food/index.html" title="Diaspora Food Analyzer, live demo"></iframe>
+                  </div>
+                </div>
+                <div class="morph-chin" aria-hidden="true"></div>
+                <button class="morph-cover" type="button" aria-label="Use the live app"><span>Click to try it</span></button>
+              </div>
+              <div class="morph-stand" aria-hidden="true"></div>
+              <div class="morph-foot">
+                <span class="morph-hint">Everyday Gym · sample account</span>
+                <button class="morph-full" type="button">Full size <span aria-hidden="true">⤢</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="projects">
+
+        <article class="project">
+          <div class="p-meta">Personal<br><span class="badge">OCR tool</span></div>
+          <div class="p-body">
+            <h3 id="invoice">Invoice Manager</h3>
+            <p class="kicker">Receipt scanning and spending tracker</p>
+            <p>Upload a receipt photo or PDF and a Java (Spring Boot) backend reads it with Google Vision OCR, then GPT-4o mini turns the text into structured items, tax and totals. Items are categorized by keyword rules first, with GPT as the fallback, and the backend flags duplicate charges, expensive items and unusually high totals. The React frontend keeps a receipt history with search, filters, category summaries and CSV/PDF export.</p>
+            <ul class="stack"><li>React</li><li>TypeScript</li><li>Java (Spring Boot)</li><li>Google Vision OCR</li><li>OpenAI GPT-4o mini</li><li>Recharts</li></ul>
+            <a class="see-demo" href="#demo" data-open-live>↑ Run it live at the top of the page</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="p-meta">Personal<br><span class="badge">Spec build</span></div>
+          <div class="p-body">
+            <h3>Camper's City</h3>
+            <p class="kicker">Concept booking site for Killam Leisure Living</p>
+            <p>A spec site for a seasonal campground and RV resort, built to show the owners what a new site could do (not commissioned). A data-driven Eleventy site with Nunjucks templates pulling from a shared content file, styled with Tailwind CSS, plus a custom JavaScript availability widget that validates date ranges, detects peak- vs shoulder-season pricing, and renders live accommodation cards with computed nightly totals.</p>
+            <ul class="stack"><li>Eleventy</li><li>Nunjucks</li><li>Tailwind CSS</li><li>JavaScript</li><li>Decap CMS</li></ul>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="p-meta">Personal<br><span class="badge">Spec build</span></div>
+          <div class="p-body">
+            <h3>Blend Point Cafe</h3>
+            <p class="kicker">Concept site with a headless CMS</p>
+            <p>A spec site for a local cafe, built on the same Eleventy and Sass stack, with Decap CMS set up as a headless content editor so an owner could update pages without touching code.</p>
+            <ul class="stack"><li>Eleventy</li><li>Sass</li><li>Decap CMS</li></ul>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="p-meta">Coursework<br><span class="badge">CS1103</span></div>
+          <div class="p-body">
+            <h3>Election &amp; Hotel Booking Database</h3>
+            <p class="kicker">Relational database project</p>
+            <p>Designed and queried a relational database system for an election and hotel-booking scenario as part of university coursework.</p>
+            <ul class="stack"><li>SQL</li><li>Database design</li></ul>
+          </div>
+        </article>
+
+      </div>
+      <p class="more">More code on <a href="https://github.com/Ebi-Ar" target="_blank" rel="noopener noreferrer">github.com/Ebi-Ar</a></p>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <h2 class="sec-head"><span class="n">03</span><span class="sec-title">Experience</span><span class="rule"></span></h2>
+      <div class="timeline">
+        <span class="tl-line" aria-hidden="true"></span>
+        <span class="tl-fill" aria-hidden="true"></span>
+        <ol class="jobs">
+          <li class="job">
+            <h3>Freelance &amp; Agency Web Developer</h3>
+            <p class="org">Arefi.studio · my own web studio</p>
+            <p>Started Arefi.studio as the business I use to find and pitch clients. I build, launch and support Shopify and WordPress storefronts for clients, built the studio's own site, and make spec sites that show local businesses what a new site could do for them.</p>
+            <ul class="pts">
+              <li>Built and launched Shopify and WordPress storefronts for clients, with payment integration and ongoing support after launch</li>
+              <li>Built the studio's site, with GSAP-animated interactions, to present my work and services</li>
+              <li>Built data-driven Eleventy spec sites with Nunjucks templates, Sass and Tailwind CSS to pitch local businesses</li>
+              <li>Set up Decap CMS as a headless editor so non-technical owners can update content themselves</li>
+              <li>Run it solo: client outreach, design, development, launch and support</li>
+            </ul>
+          </li>
+          <li class="job">
+            <h3>Java Programming Tutor</h3>
+            <p class="org">Fiverr</p>
+            <p>Tutored Java programming one-on-one through Fiverr, breaking beginner concepts into small examples and guiding students through debugging their own code rather than handing them answers.</p>
+            <ul class="pts">
+              <li>Explained core programming concepts (loops, OOP, data structures)</li>
+              <li>Built practice assignments and mini projects</li>
+              <li>Guided students through independent debugging</li>
+              <li>Adapted explanations to different learning paces</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <h2 class="sec-head"><span class="n">04</span><span class="sec-title">Skills</span><span class="rule"></span></h2>
+      <dl class="skills">
+        <div class="skill-row"><dt>Languages</dt><dd><span>Java</span><span>Python</span><span>JavaScript &amp; TypeScript</span><span>SQL</span><span>HTML5 &amp; CSS</span></dd></div>
+        <div class="skill-row"><dt>Frameworks</dt><dd><span>React (TypeScript)</span><span>Node.js</span><span>Vite</span><span>Tailwind CSS</span><span>Chart.js</span></dd></div>
+        <div class="skill-row"><dt>Tools &amp; APIs</dt><dd><span>Git &amp; npm</span><span>VS Code</span><span>REST APIs</span><span>OpenAI API</span><span>Google Cloud Vision (OCR)</span></dd></div>
+        <div class="skill-row"><dt>CS Fundamentals</dt><dd><span>Data structures (linked lists, BSTs)</span><span>Recursion &amp; algorithm design</span><span>Exception handling</span><span>Relational database design &amp; querying</span></dd></div>
+        <div class="skill-row"><dt>Web</dt><dd><span>Eleventy with Nunjucks &amp; Sass</span><span>Shopify &amp; WordPress</span><span>Headless CMS (Decap)</span><span>Responsive, mobile-first design</span></dd></div>
+        <div class="skill-row"><dt>Professional</dt><dd><span>Explaining technical concepts to beginners</span><span>Independent project delivery</span><span>Client communication &amp; support</span><span>Managing multiple workstreams</span></dd></div>
+      </dl>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <h2 class="sec-head"><span class="n">05</span><span class="sec-title">Education</span><span class="rule"></span></h2>
+      <div class="edu">
+        <div class="edu-main">
+          <div>
+            <h3>Bachelor of Science in Computer Science</h3>
+            <p class="school">University of New Brunswick · Fredericton</p>
+          </div>
+          <span class="yrs">2024 – Present</span>
+        </div>
+        <ul class="edu-extra">
+          <li><b>Minor</b>Business Administration</li>
+          <li><b>Diploma (in progress)</b>Technology Management &amp; Entrepreneurship</li>
+        </ul>
+        <p class="coursework"><b>Relevant coursework:</b> data structures (linked lists, binary search trees), recursion, exception handling, and relational database design &amp; querying.</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>Hand-written HTML and CSS, animated with GSAP. Hosted on GitHub Pages.</p>
+      <p class="term-hint">Psst: press <kbd>~</kbd> to <button type="button" class="term-open">open the terminal</button>.</p>
+      <p>© 2026 Ebrahim Arefi · <a href="mailto:ebrahimarefi11@gmail.com">ebrahimarefi11@gmail.com</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<div class="morph-backdrop" hidden>
+  <button class="morph-close" type="button">Close <kbd>esc</kbd></button>
+</div>
+
+<div class="term" id="term" role="dialog" aria-label="Terminal" hidden>
+  <div class="term-bar">
+    <span class="dots"><button type="button" class="term-x" aria-label="Close the terminal"></button><i aria-hidden="true"></i><i aria-hidden="true"></i></span>
+    <span class="term-title">ebrahim@portfolio: ~</span>
+    <span class="bot" data-mood="idle" aria-hidden="true">
+      <i class="bot-antenna"></i>
+      <span class="bot-head"><i class="bot-eye left"></i><i class="bot-eye right"></i><i class="bot-mouth"></i></span>
+    </span>
+    <button type="button" class="term-close" aria-label="Close the terminal">esc</button>
+  </div>
+  <div class="term-body">
+    <div class="term-out" aria-live="polite"></div>
+    <form class="term-line" autocomplete="off">
+      <label class="term-prompt" for="term-input">ebrahim@portfolio:~$</label>
+      <input id="term-input" class="term-input" type="text" aria-label="Terminal command" spellcheck="false" autocapitalize="off" autocomplete="off" />
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
+<script>
+  // Split the name into letters for the intro (screen readers use the h1's aria-label)
+  const nameEl = document.querySelector('.name');
+  nameEl.innerHTML = nameEl.textContent.trim().split(' ').map((word) =>
+    '<span class="word" aria-hidden="true">' +
+    [...word].map((c) => '<span class="ch">' + c + '</span>').join('') +
+    '</span>'
+  ).join(' ');
+
+  // Sidebar link follows the section in view
+  const tocLinks = document.querySelectorAll('.toc a');
+  if ('IntersectionObserver' in window) {
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        tocLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-35% 0px -60% 0px' });
+    document.querySelectorAll('main section[id]').forEach((s) => spy.observe(s));
+  }
+
+  // Cursor spotlight on project rows
+  document.querySelectorAll('.project').forEach((card) => {
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // Live app frames: each app renders at its real size (data-w) and is scaled to fit its frame
+  document.querySelectorAll('.browser-view[data-w]').forEach((view) => {
+    const width = Number(view.dataset.w);
+    const height = Number(view.dataset.h);
+    const frame = view.querySelector('iframe');
+    view.style.aspectRatio = `${width} / ${height}`;
+    frame.style.width = `${width}px`;
+    frame.style.height = `${height}px`;
+    const fit = () => view.style.setProperty('--s', String(view.clientWidth / width));
+    fit();
+    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(view);
+  });
+
+  // Invoice hero: one card, two acts. "How it works" is the scan animation; "Live app" turns the
+  // same card into the real app, which then processes the same café receipt.
+  const hero = {
+    stage: document.querySelector('.demo-stage'),
+    frame: document.querySelector('.demo-live iframe'),
+    buttons: document.querySelectorAll('.mode-btn'),
+    captions: document.querySelectorAll('.demo-caption[data-for]'),
+    replay: document.querySelector('.demo .replay'),
+    scan: null,
+    ranLive: false,
+  };
+  const withMotion = () => Boolean(window.gsap) && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function loadLiveApp() {
+    if (!hero.frame.getAttribute('src')) hero.frame.setAttribute('src', hero.frame.dataset.src);
+  }
+
+  // The embedded app exposes window.__invoiceDemo once it has started.
+  function liveApp() {
+    loadLiveApp();
+    return new Promise((resolve) => {
+      const started = Date.now();
+      const check = () => {
+        let api = null;
+        try { api = hero.frame.contentWindow && hero.frame.contentWindow.__invoiceDemo; } catch (err) { api = null; }
+        if (api || Date.now() - started > 15000) resolve(api);
+        else setTimeout(check, 120);
+      };
+      check();
+    });
+  }
+
+  function setMode(next) {
+    if (hero.stage.dataset.mode === next) return;
+    hero.buttons.forEach((button) => {
+      const on = button.dataset.mode === next;
+      button.classList.toggle('is-active', on);
+      button.classList.remove('nudge');
+      button.setAttribute('aria-selected', String(on));
+    });
+    hero.captions.forEach((caption) => { caption.hidden = caption.dataset.for !== next; });
+    hero.replay.hidden = next !== 'scan' || !withMotion();
+
+    const showing = hero.stage.querySelector(next === 'live' ? '.demo-live' : '.scan-view');
+    const leaving = hero.stage.querySelector(next === 'live' ? '.scan-view' : '.demo-live');
+
+    if (withMotion()) {
+      // Fade the current act out, then morph the card to the next act's height while it fades in.
+      const from = hero.stage.offsetHeight;
+      gsap.timeline()
+        .to(leaving, { opacity: 0, y: -10, duration: 0.25, ease: 'power2.in' })
+        .add(() => {
+          hero.stage.dataset.mode = next;
+          gsap.set(leaving, { clearProps: 'opacity,transform' });
+          const to = hero.stage.offsetHeight;
+          gsap.fromTo(hero.stage, { height: from }, { height: to, duration: 0.55, ease: 'power3.inOut', clearProps: 'height' });
+          gsap.fromTo(showing, { opacity: 0, y: 14, scale: 0.985 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, delay: 0.15, ease: 'power3.out', clearProps: 'transform' });
+        });
+    } else {
+      hero.stage.dataset.mode = next;
+    }
+
+    if (next === 'live' && !hero.ranLive) {
+      hero.ranLive = true;
+      liveApp().then((api) => {
+        if (api) setTimeout(() => api.run('harbour-street-cafe.png'), withMotion() ? 700 : 0);
+      });
+    }
+    if (next === 'scan' && hero.scan) hero.scan.restart();
+  }
+
+  hero.buttons.forEach((button) => button.addEventListener('click', () => setMode(button.dataset.mode)));
+  document.querySelector('.to-live').addEventListener('click', () => setMode('live'));
+  document.querySelectorAll('[data-open-live]').forEach((link) => link.addEventListener('click', () => setMode('live')));
+
+  // Project showcase: one device, one live app per project. It stays beside the project you're
+  // reading and turns into that project's device as you scroll: an iPhone for the gym app, an
+  // iMac for the web app.
+  const show = {
+    root: document.querySelector('.show'),
+    stage: document.querySelector('.show-stage'),
+    frame: document.querySelector('.morph-frame'),
+    slot: document.querySelector('.morph-slot'),
+    morph: document.querySelector('.morph'),
+    cover: document.querySelector('.morph-cover span'),
+    hint: document.querySelector('.morph-hint'),
+    fullButton: document.querySelector('.morph-full'),
+    backdrop: document.querySelector('.morph-backdrop'),
+    steps: Array.from(document.querySelectorAll('.show-step')),
+    apps: Array.from(document.querySelectorAll('.morph-app')),
+    sizes: [],
+    active: 0,
+    full: false,
+  };
+  const SPLIT_MIN = 600; // narrower than this, the device sits above the list instead of beside it
+  const PHONE_W = 272;   // iPhone screen width in the page
+  const BEZEL = 9;       // bezel on every side of the iPhone, and above and beside the iMac screen (CSS)
+  const CHIN = 0.13;     // iMac chin height, as a share of its screen width
+  const STAND = 0.17;    // iMac stand height, same
+  const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isDesktop = (app) => app.dataset.shape === 'desktop';
+  // The iMac is too small to use in the page, so a click opens it full size, unless full size
+  // wouldn't be much bigger (on a phone), in which case you use it where it is.
+  const clickOpensFull = () => isDesktop(show.apps[show.active]) && fullSize().size.s > show.sizes[show.active].s * 1.3;
+  const place = (el, r) => Object.assign(el.style, { left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px`, height: `${r.height}px` });
+
+  // Sizes of the device for one app, fitted inside maxW × maxH with at most `cap` pixels of screen
+  // width. `body` is the device itself; `oh` adds the iMac's stand when it is shown.
+  function fitApp(app, maxW, maxH, cap, withStand = true) {
+    const ratio = Number(app.dataset.h) / Number(app.dataset.w);
+    const desktop = isDesktop(app);
+    const fixedY = desktop ? BEZEL : BEZEL * 2;                          // bezels above/below the screen
+    const perWidthY = ratio + (desktop ? CHIN + (withStand ? STAND : 0) : 0); // height that grows with the screen
+    const sw = Math.min(maxW - BEZEL * 2, cap, (maxH - fixedY) / perWidthY);
+    const chin = desktop ? sw * CHIN : 0;
+    const stand = desktop && withStand ? sw * STAND : 0;
+    const body = sw * ratio + fixedY + chin;
+    return { ow: sw + BEZEL * 2, body, oh: body + stand, chin, stand, s: sw / Number(app.dataset.w) };
+  }
+
+  // At full size the device grows up to the app's real size, centred in the viewport (no stand)
+  function fullSize() {
+    const app = show.apps[show.active];
+    const size = fitApp(app, window.innerWidth - 32, window.innerHeight - 96, Number(app.dataset.w), false);
+    return { size, rect: { left: (window.innerWidth - size.ow) / 2, top: (window.innerHeight - size.body) / 2, width: size.ow, height: size.body } };
+  }
+
+  // Scale the active app (and the iPhone status bar) to a size
+  function scaleTo(size) {
+    const app = show.apps[show.active];
+    app.style.setProperty('--s', String(size.s));
+    show.morph.style.setProperty('--chin', `${size.chin}px`);
+    if (!isDesktop(app)) show.morph.style.setProperty('--ps', String(size.s));
+  }
+
+  function applyShape() {
+    const app = show.apps[show.active];
+    const size = show.sizes[show.active];
+    show.morph.dataset.shape = app.dataset.shape;
+    show.slot.style.width = `${size.ow}px`;
+    show.slot.style.height = `${size.oh}px`;
+    show.slot.style.setProperty('--chin', `${size.chin}px`);
+    show.slot.style.setProperty('--stand', `${size.stand}px`);
+    show.hint.textContent = app.dataset.label;
+    show.cover.textContent = clickOpensFull() ? 'Click to open it full size' : 'Click to try it';
+    show.morph.classList.toggle('is-waiting', !app.classList.contains('is-loaded'));
+  }
+
+  function layoutShow() {
+    const split = show.root.clientWidth >= SPLIT_MIN;
+    show.root.classList.toggle('is-split', split);
+    const maxW = show.stage.clientWidth;
+    const maxH = split ? window.innerHeight - 110 : Math.max(380, window.innerHeight * 0.66);
+    show.sizes = show.apps.map((app) => {
+      const iframe = app.querySelector('iframe');
+      iframe.style.width = `${app.dataset.w}px`;
+      iframe.style.height = `${app.dataset.h}px`;
+      const size = fitApp(app, maxW, maxH, isDesktop(app) ? Infinity : PHONE_W);
+      app.style.setProperty('--s', String(size.s));
+      if (!isDesktop(app)) show.slot.style.setProperty('--ps', String(size.s));
+      return size;
+    });
+    // Beside the copy, the frame is as tall as the tallest device (plus room for the caption), so the
+    // device changes shape around its centre and the page never moves. Stacked, it hugs the device.
+    show.frame.style.height = split ? `${Math.max(...show.sizes.map((s) => s.oh)) + 92}px` : '';
+    show.stage.style.setProperty('--stage-top', `${Math.max(24, (window.innerHeight - show.stage.offsetHeight) / 2)}px`);
+    applyShape();
+    if (show.full) {
+      const { size, rect } = fullSize();
+      place(show.morph, rect);
+      scaleTo(size);
+    }
+  }
+
+  function loadApp(index) {
+    const app = show.apps[index];
+    if (!app) return;
+    const iframe = app.querySelector('iframe');
+    if (iframe.getAttribute('src')) return;
+    iframe.addEventListener('load', () => {
+      app.classList.add('is-loaded');
+      if (app === show.apps[show.active]) show.morph.classList.remove('is-waiting');
+      // Once you click into an app it has the keyboard, so Esc has to be heard in there too
+      try {
+        iframe.contentWindow.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeFull(); });
+      } catch (err) { /* not same-origin (e.g. opened from file://): the Close button still works */ }
+    }, { once: true });
+    iframe.setAttribute('src', iframe.dataset.src);
+  }
+
+  // The app in view loads first, then its neighbours, so the next swap is instant
+  let preload = 0;
+  function loadAround(index) {
+    loadApp(index);
+    clearTimeout(preload);
+    preload = setTimeout(() => { loadApp(index + 1); loadApp(index - 1); }, 1500);
+  }
+
+  function showApp(index) {
+    if (index === show.active || show.full || !show.apps[index]) return;
+    show.active = index;
+    show.steps.forEach((step, i) => step.classList.toggle('is-active', i === index));
+    show.apps.forEach((app, i) => app.classList.toggle('is-on', i === index));
+    show.morph.classList.remove('is-live');
+    applyShape();
+    loadAround(index);
+  }
+
+  // Beside the copy, the device follows whichever project crosses the middle of the screen
+  function syncShow() {
+    if (show.full || !show.root.classList.contains('is-split')) return;
+    const line = window.innerHeight / 2;
+    let next = show.active;
+    let nearest = Infinity;
+    show.steps.forEach((step, i) => {
+      const r = step.getBoundingClientRect();
+      const distance = line < r.top ? r.top - line : line > r.bottom ? line - r.bottom : 0;
+      if (distance < nearest) { nearest = distance; next = i; }
+    });
+    showApp(next);
+  }
+  let showFrame = 0;
+  const queueShowSync = () => {
+    if (showFrame) return;
+    showFrame = requestAnimationFrame(() => { showFrame = 0; syncShow(); });
+  };
+  const relayout = () => { layoutShow(); queueShowSync(); };
+  window.addEventListener('scroll', queueShowSync, { passive: true });
+  window.addEventListener('resize', relayout);
+  if ('ResizeObserver' in window) new ResizeObserver(relayout).observe(show.root);
+
+  // Beside the copy, picking a project scrolls to it. Stacked, it switches the device directly
+  // and brings the device back into view if it has scrolled off the top.
+  show.steps.forEach((step, index) => {
+    const behavior = () => (reduceMotion() ? 'auto' : 'smooth');
+    const pick = () => {
+      if (show.root.classList.contains('is-split')) {
+        if (index !== show.active) step.scrollIntoView({ behavior: behavior(), block: 'center' });
+        return;
+      }
+      showApp(index);
+      if (show.stage.getBoundingClientRect().top < 0) show.stage.scrollIntoView({ behavior: behavior(), block: 'start' });
+    };
+    step.addEventListener('click', (event) => { if (!event.target.closest('a, button')) pick(); });
+    step.addEventListener('keydown', (event) => {
+      if (event.target !== step || (event.key !== 'Enter' && event.key !== ' ')) return;
+      event.preventDefault();
+      pick();
+    });
+  });
+
+  // Scrolling over the device scrolls the page. A click hands the app to you until the pointer
+  // leaves it (or, on touch, until it scrolls away), or opens the iMac full size.
+  show.morph.querySelector('.morph-cover').addEventListener('click', () => {
+    if (clickOpensFull()) { openFull(); return; }
+    loadApp(show.active);
+    show.morph.classList.add('is-live');
+    show.apps[show.active].querySelector('iframe').focus();
+  });
+  show.morph.addEventListener('pointerleave', (event) => {
+    if (!show.full && event.pointerType === 'mouse') show.morph.classList.remove('is-live');
+  });
+
+  // Full size: the device lifts out of the page and grows to the app's real size
+  function openFull() {
+    if (show.full) return;
+    const m = show.morph;
+    const from = m.getBoundingClientRect();
+    show.full = true;
+    loadApp(show.active);
+    document.documentElement.classList.add('morph-open');
+    show.stage.classList.add('is-full');
+    show.backdrop.hidden = false;
+    m.style.transition = 'none';
+    m.classList.add('is-flying', 'is-live');
+    place(m, from);
+    m.getBoundingClientRect(); // commit the starting rect before animating from it
+    m.style.transition = '';
+    const { size, rect } = fullSize();
+    place(m, rect);
+    scaleTo(size);
+    show.backdrop.classList.add('is-on');
+    show.backdrop.querySelector('.morph-close').focus();
+  }
+
+  function closeFull() {
+    if (!show.full) return;
+    const m = show.morph;
+    const size = show.sizes[show.active];
+    const slot = show.slot.getBoundingClientRect();
+    place(m, { left: slot.left, top: slot.top, width: slot.width, height: size.body });
+    scaleTo(size);
+    m.classList.remove('is-live');
+    show.backdrop.classList.remove('is-on');
+    setTimeout(() => {
+      m.classList.remove('is-flying');
+      ['left', 'top', 'width', 'height', '--chin', '--ps'].forEach((prop) => m.style.removeProperty(prop));
+      show.stage.classList.remove('is-full');
+      show.backdrop.hidden = true;
+      document.documentElement.classList.remove('morph-open');
+      show.full = false;
+      show.fullButton.focus({ preventScroll: true });
+      queueShowSync();
+    }, reduceMotion() ? 0 : 560);
+  }
+
+  show.fullButton.addEventListener('click', openFull);
+  show.backdrop.addEventListener('click', closeFull);
+
+  layoutShow();
+  if ('IntersectionObserver' in window) {
+    const near = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      near.disconnect();
+      loadAround(show.active);
+    }, { rootMargin: '800px 0px' });
+    near.observe(show.root);
+    new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting && !show.full) show.morph.classList.remove('is-live');
+    }).observe(show.morph);
+  } else {
+    loadAround(show.active);
+  }
+  queueShowSync();
+
+  // ── Hidden terminal ──────────────────────────────────────────────
+  // Press ~ (or type "hire") anywhere on the page, or use the link in the footer.
+  const term = {
+    el: document.getElementById('term'),
+    out: document.querySelector('.term-out'),
+    body: document.querySelector('.term-body'),
+    form: document.querySelector('.term-line'),
+    input: document.getElementById('term-input'),
+    history: [],
+    cursor: 0,
+    greeted: false,
+    returnFocus: null,
+  };
+  const EMAIL = 'ebrahimarefi11@gmail.com';
+  const SECTIONS = ['about', 'projects', 'experience', 'skills', 'education'];
+  const projectRows = () => Array.from(document.querySelectorAll('.show-step, .project')).map((row) => ({
+    row,
+    name: (row.querySelector('h3').dataset.text || row.querySelector('h3').textContent).trim(),
+    live: row.classList.contains('show-step') || row.querySelector('#invoice') !== null,
+  }));
+
+  // The bot in the terminal bar reacts to what you run
+  const bot = document.querySelector('.bot');
+  let botTimer = 0;
+  function setMood(mood, hold = 2600) {
+    bot.dataset.mood = mood;
+    clearTimeout(botTimer);
+    if (mood !== 'idle') botTimer = setTimeout(() => { bot.dataset.mood = 'idle'; }, hold);
+  }
+  const MOODS = {
+    help: 'thinking', whoami: 'happy', projects: 'thinking', open: 'thinking', skills: 'thinking',
+    ls: 'thinking', cd: 'thinking', contact: 'happy', hire: 'happy', scan: 'scan', clear: 'sleep',
+    exit: 'sleep', sudo: 'oops',
+  };
+
+  function print(parts, cls) {
+    const line = document.createElement('div');
+    if (cls) line.className = cls;
+    [].concat(parts).forEach((part) => {
+      if (typeof part === 'string') line.append(part);
+      else if (part.href) {
+        const a = document.createElement('a');
+        a.href = part.href;
+        a.textContent = part.text;
+        if (/^https?:/.test(part.href)) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+        line.append(a);
+      } else {
+        const span = document.createElement('span');
+        span.className = part.cls;
+        span.textContent = part.text;
+        line.append(span);
+      }
+    });
+    if (cls === 'err') setMood('oops');
+    term.out.append(line);
+    term.body.scrollTop = term.body.scrollHeight;
+  }
+
+  function goTo(target) {
+    const el = typeof target === 'string' ? document.getElementById(target) : target;
+    if (el) el.scrollIntoView({ behavior: withMotion() ? 'smooth' : 'auto', block: 'start' });
+  }
+
+  // Jumping to a project centres it on screen, and a project row lights up for a moment so it's
+  // clear which one you were sent to.
+  let spotTimer = 0;
+  const reveals = new WeakMap(); // each row's scroll-in reveal, filled in by the animation code below
+  function spotlight(el) {
+    const row = el.closest('.project, .show-step') || el;
+    const body = row.querySelector('.step-body') || row;
+    // Don't make the visitor wait for its turn in the reveal queue: show it now
+    const reveal = reveals.get(body);
+    if (reveal && reveal.progress() < 1) reveal.progress(1);
+    row.scrollIntoView({ behavior: withMotion() ? 'smooth' : 'auto', block: 'center' });
+    if (!row.classList.contains('project')) return;
+    document.querySelectorAll('.project.is-spotlit').forEach((r) => r.classList.remove('is-spotlit'));
+    clearTimeout(spotTimer);
+    row.classList.add('is-spotlit');
+    spotTimer = setTimeout(() => row.classList.remove('is-spotlit'), 3200);
+  }
+  document.querySelectorAll('a[href="#invoice"]').forEach((link) => link.addEventListener('click', (event) => {
+    event.preventDefault();
+    spotlight(document.getElementById('invoice'));
+  }));
+
+  const COMMANDS = {
+    help: () => {
+      print('Available commands:');
+      [
+        ['whoami', 'who I am, in one line'],
+        ['projects', 'list my projects'],
+        ['open <n>', 'jump to a project'],
+        ['skills', 'what I work with'],
+        ['ls / cd <section>', 'look around the page'],
+        ['contact', 'how to reach me'],
+        ['hire', 'the best command'],
+        ['scan', 'replay the receipt scan'],
+        ['clear / exit', 'tidy up or close'],
+      ].forEach(([cmd, what]) => print([{ cls: 'cmd', text: cmd.padEnd(20) }, { cls: 'dim', text: what }]));
+    },
+    whoami: () => print('Ebrahim Arefi: 3rd-year Computer Science student at UNB. I build full-stack apps with AI integrations, OCR pipelines and structured data tools. Open to co-op and internship roles.'),
+    projects: () => {
+      projectRows().forEach((p, i) => print([{ cls: 'hl', text: `${i + 1}. ` }, p.name, p.live ? { cls: 'dim', text: '  (live demo)' } : '']));
+      print('Type "open 1" to jump to one.', 'dim');
+    },
+    open: (arg) => {
+      const rows = projectRows();
+      const n = Number(arg);
+      const pick = n ? rows[n - 1] : rows.find((p) => arg && p.name.toLowerCase().includes(arg.toLowerCase()));
+      if (!pick) {
+        print(arg ? `No project matches "${arg}". Pick one:` : 'Which one? Pick a number:', arg ? 'err' : 'dim');
+        return COMMANDS.projects();
+      }
+      print(`Opening ${pick.name}…`);
+      spotlight(pick.row);
+    },
+    skills: () => {
+      document.querySelectorAll('.skill-row').forEach((row) => {
+        const label = row.querySelector('dt').textContent.trim();
+        const items = Array.from(row.querySelectorAll('dd span')).map((s) => s.textContent.trim()).join(', ');
+        print([{ cls: 'hl', text: label.padEnd(18) }, items]);
+      });
+    },
+    ls: () => print(SECTIONS.map((s) => `${s}/`).join('   ')),
+    cd: (arg) => {
+      const section = (arg || '').replace(/\/$/, '').toLowerCase();
+      if (!section || section === '~' || section === '..') { goTo(document.body); return print('~'); }
+      if (!SECTIONS.includes(section)) {
+        print(`cd: no such section: ${arg}`, 'err');
+        return print(SECTIONS.map((s) => `${s}/`).join('   '), 'dim');
+      }
+      goTo(section);
+    },
+    contact: () => {
+      print(['Email     ', { href: `mailto:${EMAIL}`, text: EMAIL }]);
+      print(['LinkedIn  ', { href: 'https://www.linkedin.com/in/ebrahim-arefi-9a789b203', text: 'linkedin.com/in/ebrahim-arefi-9a789b203' }]);
+      print(['GitHub    ', { href: 'https://github.com/Ebi-Ar', text: 'github.com/Ebi-Ar' }]);
+    },
+    hire: () => {
+      print('Excellent choice.', 'hl');
+      print(['Send me a note and I will get back to you quickly: ', { href: `mailto:${EMAIL}?subject=${encodeURIComponent('Co-op opportunity')}`, text: 'email Ebrahim →' }]);
+    },
+    scan: () => {
+      print('Replaying the receipt scan…');
+      if (hero.stage.dataset.mode !== 'scan') setMode('scan');
+      else if (hero.scan) hero.scan.restart();
+      goTo('demo');
+    },
+    clear: () => { term.out.textContent = ''; },
+    exit: () => closeTerminal(),
+    sudo: () => print('Permission denied. Nice try though.', 'err'),
+  };
+
+  function run(line) {
+    const typed = line.trim();
+    // People copy the help literally, so "open <2>" and "open 2" both work
+    const [name, ...rest] = typed.replace(/[<>]/g, ' ').trim().split(/\s+/);
+    if (!name) return;
+    print([{ cls: 'cmd', text: '$ ' }, typed]);
+    const command = COMMANDS[name.toLowerCase()];
+    setMood(command ? MOODS[name.toLowerCase()] || 'thinking' : 'oops');
+    if (command) command(rest.join(' '));
+    else print(`command not found: ${name}. Type "help".`, 'err');
+  }
+
+  // Terminal launcher: the sidebar chip types commands to itself. Clicking it runs the one on
+  // screen, and on desktop the terminal grows out of the chip and shrinks back into it.
+  const chip = {
+    el: document.querySelector('.term-chip'),
+    cmd: document.querySelector('.tc-cmd'),
+    list: ['whoami', 'projects', 'hire', 'cd skills', 'contact'],
+    index: 0,
+    deleting: false,
+    timer: 0,
+  };
+
+  function chipLoop() {
+    const word = chip.list[chip.index];
+    const shown = chip.cmd.textContent;
+    let wait;
+    if (!term.el.hidden || document.hidden) wait = 600; // resting while the terminal is open or the tab is hidden
+    else if (chip.deleting) {
+      if (shown) { chip.cmd.textContent = shown.slice(0, -1); wait = 35; }
+      else { chip.deleting = false; chip.index = (chip.index + 1) % chip.list.length; wait = 380; }
+    } else if (shown.length < word.length) {
+      chip.cmd.textContent = word.slice(0, shown.length + 1);
+      wait = 70 + Math.random() * 70;
+    } else {
+      chip.deleting = true;
+      wait = 2400;
+    }
+    chip.timer = setTimeout(chipLoop, wait);
+  }
+
+  // Boot: the three lights come on, then it starts typing (or just sits there without motion)
+  function startChip() {
+    chip.el.classList.add('is-on');
+    if (!withMotion()) return;
+    chip.cmd.textContent = '';
+    chip.timer = setTimeout(chipLoop, 700);
+  }
+
+  const chipInView = () => {
+    if (window.innerWidth <= 960 || !chip.el.offsetParent) return null;
+    const r = chip.el.getBoundingClientRect();
+    return r.bottom > 0 && r.top < window.innerHeight ? r : null;
+  };
+  // A clip-path that shows only the part of the terminal covering rect r
+  const clipTo = (r) => {
+    const t = term.el.getBoundingClientRect();
+    return `inset(${r.top - t.top}px ${t.right - r.right}px ${t.bottom - r.bottom}px ${r.left - t.left}px round 10px)`;
+  };
+  // Anchor the terminal's bottom-left corner on the chip so it can grow out of it
+  function placeTerminal(r) {
+    const s = term.el.style;
+    if (!r) { s.left = s.right = s.bottom = ''; return; }
+    s.left = `${r.left}px`;
+    s.right = 'auto';
+    s.bottom = `${Math.max(16, Math.min(window.innerHeight - r.bottom, window.innerHeight - 16 - term.el.offsetHeight))}px`;
+  }
+
+  function openTerminal(firstCommand) {
+    if (!term.el.hidden) { if (firstCommand) run(firstCommand); return; }
+    term.returnFocus = document.activeElement;
+    term.el.hidden = false;
+    const from = chipInView();
+    placeTerminal(from);
+    if (from) chip.el.classList.add('is-open');
+    if (withMotion()) {
+      gsap.killTweensOf([term.el, ...term.el.children]);
+      if (from) {
+        gsap.fromTo(term.el, { clipPath: clipTo(from) }, { clipPath: 'inset(0px 0px 0px 0px round 12px)', duration: 0.55, ease: 'power3.inOut', clearProps: 'clipPath' });
+        gsap.fromTo(term.el.children, { opacity: 0 }, { opacity: 1, duration: 0.3, delay: 0.22, clearProps: 'opacity' });
+      } else {
+        gsap.fromTo(term.el, { opacity: 0, y: 16, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: 'power3.out', clearProps: 'opacity,transform' });
+      }
+    }
+    if (!term.greeted) {
+      term.greeted = true;
+      print('Welcome to my portfolio terminal.', 'hl');
+      print('Type "help" to see what it can do. Esc or ~ closes it.', 'dim');
+    }
+    if (firstCommand) run(firstCommand);
+    else setMood('happy', 1800);
+    term.input.focus();
+  }
+
+  function closeTerminal() {
+    if (term.el.hidden || term.closing) return;
+    const into = chip.el.classList.contains('is-open') ? chipInView() : null;
+    const finish = () => {
+      term.closing = false;
+      term.el.hidden = true;
+      chip.el.classList.remove('is-open');
+      if (term.returnFocus && term.returnFocus.focus) term.returnFocus.focus({ preventScroll: true });
+    };
+    if (!withMotion()) { finish(); return; }
+    term.closing = true;
+    gsap.killTweensOf([term.el, ...term.el.children]);
+    const done = () => { gsap.set([term.el, ...term.el.children], { clearProps: 'clipPath,opacity,transform' }); finish(); };
+    if (into) {
+      gsap.to(term.el.children, { opacity: 0, duration: 0.15 });
+      gsap.to(term.el, { clipPath: clipTo(into), duration: 0.45, ease: 'power3.inOut', onComplete: done });
+    } else {
+      gsap.to(term.el, { opacity: 0, y: 12, duration: 0.2, ease: 'power2.in', onComplete: done });
+    }
+  }
+
+  term.form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const line = term.input.value;
+    if (line.trim()) { term.history.push(line); term.cursor = term.history.length; }
+    term.input.value = '';
+    run(line);
+  });
+  term.input.addEventListener('input', () => setMood(term.input.value ? 'listening' : 'idle', 1400));
+  term.input.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      term.cursor = Math.max(0, Math.min(term.history.length, term.cursor + (event.key === 'ArrowUp' ? -1 : 1)));
+      term.input.value = term.history[term.cursor] || '';
+    } else if (event.key === 'Tab') {
+      event.preventDefault();
+      const partial = term.input.value.trim().toLowerCase();
+      const match = Object.keys(COMMANDS).find((name) => partial && name.startsWith(partial));
+      if (match) term.input.value = `${match} `;
+    }
+  });
+  document.querySelectorAll('.term-close, .term-x').forEach((button) => button.addEventListener('click', closeTerminal));
+  document.querySelector('.term-open').addEventListener('click', () => openTerminal());
+  chip.el.addEventListener('click', () => openTerminal());
+  if (!withMotion()) startChip();
+
+  let typed = '';
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && show.full) { closeFull(); return; }
+    if (event.key === 'Escape' && !term.el.hidden) { closeTerminal(); return; }
+    if ((event.key === '`' || event.key === '~') && event.target === term.input) { event.preventDefault(); closeTerminal(); return; }
+    const field = event.target.closest && event.target.closest('input, textarea, select, [contenteditable]');
+    if (field || event.metaKey || event.ctrlKey || event.altKey) return;
+    if (event.key === '`' || event.key === '~') { event.preventDefault(); term.el.hidden ? openTerminal() : closeTerminal(); return; }
+    // Typing "hire" anywhere opens the terminal and runs it
+    if (event.key.length !== 1) return;
+    typed = (typed + event.key.toLowerCase()).slice(-4);
+    if (typed === 'hire') { typed = ''; openTerminal('hire'); }
+  });
+
+  // Everything below is progressive: without GSAP the page is already in its final state
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    if (window.ScrambleTextPlugin) gsap.registerPlugin(ScrambleTextPlugin);
+    const mm = gsap.matchMedia();
+
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.defaults({ ease: 'power3.out' });
+
+      // Intro
+      gsap.timeline()
+        .from('.status', { y: -10, opacity: 0, duration: 0.5 })
+        .from('.name .ch', { yPercent: 115, duration: 0.9, ease: 'power4.out', stagger: 0.035 }, '-=0.2')
+        .from('.role, .blurb', { y: 14, opacity: 0, duration: 0.6, stagger: 0.08 }, '-=0.55')
+        .from('.toc li', { opacity: 0, x: -10, duration: 0.45, stagger: 0.06 }, '-=0.3')
+        .from('.term-chip, .links li, .where', { y: 10, opacity: 0, duration: 0.45, stagger: 0.06, clearProps: 'transform,opacity' }, '-=0.35')
+        .from('.demo-card', { y: 28, opacity: 0, duration: 0.9 }, 0.35)
+        .from('.demo-caption', { opacity: 0, duration: 0.6 }, '-=0.3')
+        .call(startChip);
+
+
+      // Receipt scan: the real café receipt and what the backend returned for it
+      const receipt = document.querySelector('.receipt');
+      const scanline = receipt.querySelector('.scanline');
+      const scanned = receipt.querySelectorAll('[data-scan]');
+      const flag = receipt.querySelectorAll('.dup .mark, .dup .tag');
+      const jsonLines = document.querySelectorAll('.json .jl');
+
+      const demo = gsap.timeline({
+        delay: 0.9,
+        scrollTrigger: { trigger: '.demo-card', start: 'top 85%' }
+      });
+      demo
+        .fromTo(scanned, { opacity: 0.25 }, { opacity: 1, duration: 0.25, stagger: 0.2, ease: 'none' }, 0.15)
+        .fromTo(scanline,
+          { y: 0, opacity: 1 },
+          { y: () => receipt.offsetHeight - 2, duration: 1.55, ease: 'none', immediateRender: false }, 0)
+        .to(scanline, { opacity: 0, duration: 0.2 })
+        .fromTo('.receipt li.dup', { marginTop: 0 }, { marginTop: 17, duration: 0.3 }, '-=0.1')
+        .fromTo(flag, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'back.out(2)' }, '<0.1')
+        .fromTo('.pipe-arrow', { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4 }, '-=0.2')
+        .fromTo(jsonLines, { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.3, stagger: 0.09 }, '-=0.1')
+        // Last beat: offer the real app, and start loading it so the switch is instant
+        .fromTo('.scan-cta', { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4 }, '+=0.2')
+        .call(() => {
+          if (hero.stage.dataset.mode === 'scan') document.querySelector('.mode-btn[data-mode="live"]').classList.add('nudge');
+          loadLiveApp();
+        });
+      hero.scan = demo;
+
+      document.querySelector('.demo .replay').addEventListener('click', () => demo.restart());
+
+      // "The page gets scanned": the same idea as the hero receipt. Each block is revealed top to
+      // bottom behind a scan line, and titles decode from scrambled characters, like OCR output.
+      const OCR_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#/_';
+      const decode = (el, duration) => {
+        const text = el.dataset.text || el.textContent;
+        el.dataset.text = text;
+        el.setAttribute('aria-label', text);
+        if (!window.ScrambleTextPlugin) return gsap.from(el, { opacity: 0, duration: 0.4 });
+        return gsap.to(el, { duration, ease: 'none', scrambleText: { text, chars: OCR_CHARS, speed: 0.6, revealDelay: 0.2 } });
+      };
+
+      gsap.utils.toArray('.sec-head').forEach((head) => {
+        gsap.timeline({ scrollTrigger: { trigger: head, start: 'top 88%' } })
+          .from(head, { opacity: 0, duration: 0.3 })
+          .add(decode(head.querySelector('.sec-title'), 0.9), 0)
+          .from(head.querySelector('.rule'), { scaleX: 0, duration: 1.1 }, 0.1);
+      });
+
+      // Project rows are "scanned": one soft beam sweeps down the row and reveals it, one row at a
+      // time as you reach it. Everything smaller just fades in, so the beam stays special.
+      // One beam at a time. Rows reached together wait their turn; a row that is off screen when its
+      // turn comes (scrolled past, or jumped over from the menu) is revealed instantly instead.
+      const beamQueue = [];
+      let beamRunning = false;
+      const inView = (el) => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight; };
+      const pumpBeams = () => {
+        if (beamRunning) return;
+        while (beamQueue.length) {
+          const { tl, row } = beamQueue.shift();
+          if (!inView(row)) { tl.progress(1); continue; }
+          beamRunning = true;
+          tl.play().then(() => { beamRunning = false; pumpBeams(); });
+          return;
+        }
+      };
+      const scanRow = (tl, row) => { beamQueue.push({ tl, row }); pumpBeams(); };
+
+      gsap.utils.toArray('.step-body, .project').forEach((row) => {
+        const beam = document.createElement('span');
+        beam.className = 'scan-beam';
+        beam.setAttribute('aria-hidden', 'true');
+        row.append(beam);
+        const height = () => row.offsetHeight;
+        const duration = Math.min(1.3, 0.5 + row.offsetHeight / 900);
+        const tl = gsap.timeline({
+          paused: true,
+          onComplete: () => { gsap.set(row, { clearProps: 'clipPath' }); beam.remove(); },
+        });
+        tl.fromTo(row, { clipPath: 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration, ease: 'power1.inOut' }, 0)
+          .fromTo(beam, { y: -40 }, { y: () => height() - 40, duration, ease: 'power1.inOut' }, 0)
+          .to(beam, { opacity: 1, duration: 0.15 }, 0)
+          .to(beam, { opacity: 0, duration: 0.25 }, '>-0.1');
+        const title = row.querySelector('h3');
+        if (title) tl.add(decode(title, 0.7), 0.1);
+        const chips = row.querySelectorAll('.stack li');
+        if (chips.length) tl.from(chips, { scale: 0.8, opacity: 0, duration: 0.3, stagger: 0.03, ease: 'back.out(2)' }, duration * 0.6);
+        reveals.set(row, tl);
+        ScrollTrigger.create({ trigger: row, start: 'top 85%', once: true, onEnter: () => scanRow(tl, row) });
+      });
+
+      gsap.from('.show-stage', { opacity: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: '.show', start: 'top 80%', once: true } });
+
+      const quiet = gsap.utils.toArray('.about > p, .fact, .job, .skill-row, .edu > *');
+      gsap.set(quiet, { opacity: 0, y: 12 });
+      ScrollTrigger.batch(quiet, {
+        start: 'top 90%',
+        once: true,
+        onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, duration: 0.6, stagger: 0.07, ease: 'power2.out' }),
+      });
+      gsap.utils.toArray('.job h3').forEach((title) => {
+        ScrollTrigger.create({ trigger: title, start: 'top 90%', once: true, onEnter: () => decode(title, 0.7) });
+      });
+
+      // Experience: accent line fills as you scroll through it
+      gsap.to('.tl-fill', {
+        scaleY: 1, ease: 'none',
+        scrollTrigger: { trigger: '.timeline', start: 'top 70%', end: 'bottom 60%', scrub: 0.6 }
+      });
+    });
+
+    // Reduced motion: timeline line shown in full, no animation
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      gsap.set('.tl-fill', { scaleY: 1 });
+      document.querySelector('.demo .replay').hidden = true;
+    });
+  } else {
+    document.querySelector('.tl-fill').style.transform = 'none';
+    document.querySelector('.demo .replay').hidden = true;
+  }
+</script>
+</body>
+</html>
