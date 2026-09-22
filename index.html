@@ -719,99 +719,68 @@
       .term-prompt { display: none; }
     }
 
-    /* ── AETHER TEASER ──
-       Not a demo: a sneak peek. The project isn't finished, so instead of handing over the whole
-       app this panel borrows Aether's own look (a backlit moon on black) and names what's inside.
-       Dark in both themes on purpose, like a film still set into the page. */
-    .teaser {
-      position: relative; margin-bottom: 44px; border-radius: 16px; overflow: hidden;
-      border: 1px solid rgba(146, 180, 232, 0.16);
-      background: radial-gradient(130% 110% at 50% -10%, #16202f 0%, #0a0f18 52%, #05070c 100%);
-      isolation: isolate;
+    /* ── AETHER DOSSIER ──
+       Aether isn't finished, so the card doesn't pretend to be a case study: it's the file on a
+       project still under way. Same ink, rules and mono as the rest of the page, so it reads as
+       another document rather than a foreign panel. What's withheld is withheld on purpose; run a
+       cursor over a redaction and it rattles without ever resolving. */
+    .dossier { margin-bottom: 44px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+    .dsr-head {
+      display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; justify-content: space-between;
+      padding: 16px 20px; border-bottom: 1px solid var(--line);
+      font: 500 11.5px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase;
     }
-    .teaser::after {
-      content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(120% 90% at 50% 120%, rgba(2, 114, 180, 0.18), transparent 60%);
+    .dsr-id { color: var(--ink); }
+    .dsr-id b { font-weight: 600; letter-spacing: .22em; }
+    .dsr-build { color: var(--faint); font-variant-numeric: tabular-nums; }
+
+    .dsr-fields { margin: 0; padding: 18px 20px 4px; display: grid; gap: 11px; }
+    .dsr-row { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 14px; align-items: baseline; }
+    .dsr-row dt { font: 400 11px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+    .dsr-row dd { margin: 0; font: 500 13px/1.5 var(--mono); color: var(--ink); display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
+    .dsr-row dd .sep { color: var(--line); }
+    .dsr-status { display: inline-flex; align-items: center; gap: 7px; color: var(--dev); }
+    .dsr-status::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--dev);
+      box-shadow: 0 0 0 0 rgba(2, 132, 199, .5); animation: dsr-ping 2.6s ease-out infinite;
     }
 
-    /* The stage: stars, then the moon */
-    .teaser-stage {
-      position: relative; min-height: 264px; display: grid; place-items: center; overflow: hidden;
-      border-bottom: 1px solid rgba(146, 180, 232, .10);
+    /* A redaction: solid ink at rest, rattling glyphs under the cursor, never the real thing */
+    .probe {
+      position: relative; display: inline-block; padding: 0; border: 0; border-radius: 2px;
+      background: var(--ink); color: transparent; cursor: help;
+      font: 500 13px/1.5 var(--mono); letter-spacing: .02em;
+      vertical-align: baseline; transition: background .2s ease, color .2s ease, box-shadow .2s ease;
     }
-    .teaser-star {
-      position: absolute; width: 2px; height: 2px; border-radius: 50%;
-      background: #d4e4ff; opacity: .45; animation: t-twinkle 5s ease-in-out infinite;
+    .probe span { visibility: hidden; }            /* holds the width only */
+    .probe i { position: absolute; inset: 0; font-style: normal; color: var(--muted); opacity: 0; transition: opacity .15s ease; }
+    .probe:hover, .probe.is-probing, .probe:focus-visible {
+      background: color-mix(in srgb, var(--ink) 7%, transparent);
+      box-shadow: inset 0 0 0 1px var(--line);
     }
-    .eclipse { position: relative; width: clamp(128px, 17vw, 196px); aspect-ratio: 1; }
-    .eclipse-glow {
-      position: absolute; inset: -70%; border-radius: 50%;
-      background: radial-gradient(closest-side, rgba(158, 197, 255, .38), rgba(82, 134, 214, .12) 46%, transparent 72%);
-      animation: t-breathe 7.5s ease-in-out infinite;
-    }
-    .eclipse-rim {
-      position: absolute; inset: -4%; border-radius: 50%;
-      background: conic-gradient(from 210deg, transparent 0 14%, rgba(205, 228, 255, .9) 30%, rgba(150, 190, 250, .35) 46%, transparent 60%, rgba(180, 210, 255, .5) 82%, transparent 96%);
-      filter: blur(4px); opacity: .8; animation: t-spin 26s linear infinite;
-    }
-    .eclipse-body {
-      position: absolute; inset: 0; border-radius: 50%;
-      background: radial-gradient(circle at 46% 38%, #8b9fbd 0%, #5a6c88 34%, #2a3646 66%, #101823 100%);
-      box-shadow: inset -10px -12px 34px rgba(0, 0, 0, .62), inset 6px 6px 22px rgba(190, 216, 255, .12),
-                  0 0 0 1px rgba(196, 220, 255, .28), 0 0 30px 2px rgba(150, 190, 255, .22);
-    }
+    .probe.is-probing i { opacity: 1; }
+    .probe:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-    /* The copy */
-    .teaser-copy { padding: 34px 34px 36px; display: grid; align-content: center; }
-    .teaser-tag {
-      display: inline-flex; align-items: center; gap: 8px; margin: 0;
-      font: 500 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: #7cb6ec;
+    .dsr-statement {
+      margin: 20px 20px 0; padding: 20px 0 0; border-top: 1px solid var(--line);
+      font: 400 clamp(19px, 2.6vw, 25px)/1.32 var(--sans); color: var(--ink); letter-spacing: -0.01em;
+      text-wrap: balance;
     }
-    .teaser-tag::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%; background: #38bdf8;
-      box-shadow: 0 0 10px rgba(56, 189, 248, .9); animation: t-pulse 2.6s ease-in-out infinite;
+    .dsr-foot {
+      display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: space-between;
+      margin-top: 18px; padding: 14px 20px; border-top: 1px solid var(--line);
     }
-    .teaser-name {
-      margin: 16px 0 0; color: #fff; font: 700 clamp(28px, 4.4vw, 42px)/1 var(--sans); letter-spacing: .26em;
+    .dsr-note { margin: 0; font: 400 11.5px/1.4 var(--mono); color: var(--faint); }
+    .dsr-link {
+      display: inline-flex; align-items: center; gap: 7px; text-decoration: none; color: var(--accent);
+      font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase;
     }
-    .teaser-kicker { margin: 12px 0 0; font: 500 12.5px/1.5 var(--mono); color: #8d9db4; }
-    .teaser-line { margin: 14px 0 0; max-width: 48ch; color: #b4c2d6; font-size: 14.5px; line-height: 1.6; }
+    .dsr-link:hover { text-decoration: underline; text-underline-offset: 4px; }
 
-    /* What's inside: named, with a glyph that acts out the feature */
-    .teaser-peeks { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
-    .teaser-peeks li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; align-items: start; }
-    .teaser-peeks b { display: block; color: #e9eff8; font: 600 13px/1.45 var(--sans); }
-    .teaser-peeks i { display: block; font-style: normal; color: #8d9db4; font-size: 12.5px; line-height: 1.5; }
-    .peek-glyph { width: 26px; height: 26px; color: #7cb6ec; margin-top: 1px; }
-    .peek-glyph svg { width: 100%; height: 100%; display: block; overflow: visible; }
-    .peek-layers rect:nth-child(1) { animation: t-slide 4.2s ease-in-out infinite; }
-    .peek-layers rect:nth-child(3) { animation: t-slide 4.2s ease-in-out infinite reverse; }
-    .peek-motion .dot {
-      offset-path: path('M3 21 C 9 21, 10 5, 23 5'); offset-distance: 0%;
-      animation: t-travel 3.4s cubic-bezier(.65,0,.35,1) infinite;
+    @keyframes dsr-ping {
+      0% { box-shadow: 0 0 0 0 rgba(2, 132, 199, .45); }
+      70%, 100% { box-shadow: 0 0 0 7px rgba(2, 132, 199, 0); }
     }
-    .peek-grid rect { animation: t-blink 3.6s ease-in-out infinite; }
-    .peek-grid rect:nth-child(2) { animation-delay: .3s; }
-    .peek-grid rect:nth-child(3) { animation-delay: .9s; }
-    .peek-grid rect:nth-child(4) { animation-delay: .6s; }
-
-    .teaser-link {
-      justify-self: start; margin-top: 24px; display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 18px; border-radius: 999px; text-decoration: none;
-      border: 1px solid rgba(160, 200, 250, .35); color: #e9eff8;
-      font: 500 12.5px/1 var(--mono); letter-spacing: .04em;
-      background: rgba(125, 175, 235, .08); transition: background .25s ease, border-color .25s ease, transform .25s ease;
-    }
-    .teaser-link:hover { background: rgba(125, 175, 235, .18); border-color: rgba(190, 220, 255, .6); transform: translateY(-1px); }
-    .teaser-link:focus-visible { outline: 2px solid #7cb6ec; outline-offset: 3px; }
-
-    @keyframes t-breathe { 0%, 100% { transform: scale(.93); opacity: .72; } 50% { transform: scale(1.07); opacity: 1; } }
-    @keyframes t-spin { to { transform: rotate(360deg); } }
-    @keyframes t-twinkle { 0%, 100% { opacity: .15; } 50% { opacity: .75; } }
-    @keyframes t-pulse { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
-    @keyframes t-slide { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
-    @keyframes t-travel { 0% { offset-distance: 0%; } 100% { offset-distance: 100%; } }
-    @keyframes t-blink { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -819,15 +788,15 @@
       .tl-fill { transform: none; }
       .morph-slot, .morph, .morph *, .morph::after, .morph-stand, .morph-backdrop { transition: none !important; }
       .bot *, .bot *::after { animation: none !important; }
-      .teaser *, .teaser *::before, .teaser *::after { animation: none !important; }
+      .dossier .probe { animation: none !important; }
     }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 960px) {
       .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 16px; }
-      .teaser-stage { min-height: 210px; }
-      .teaser-copy { padding: 26px 22px 30px; }
-      .teaser-name { letter-spacing: .18em; }
+      .dsr-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+      .dsr-statement { margin-left: 16px; margin-right: 16px; }
+      .dsr-head, .dsr-fields, .dsr-foot { padding-left: 16px; padding-right: 16px; }
       .side { position: static; height: auto; padding: 56px 0 8px; display: block; }
       .blurb { max-width: 46ch; }
       .toc { display: none; }
@@ -958,49 +927,46 @@
     <section id="projects">
       <h2 class="sec-head"><span class="n">02</span><span class="sec-title">Projects</span><span class="rule"></span></h2>
 
-      <!-- Aether is unfinished, so it gets a teaser rather than a demo: its own backlit-moon
-           look, the name decoding out of noise, and three named features. The way in is the link. -->
-      <article class="teaser" id="aether">
-        <div class="teaser-stage" aria-hidden="true">
-        <span class="teaser-star" style="top:18%;left:14%;animation-delay:0s"></span>
-        <span class="teaser-star" style="top:28%;left:72%;animation-delay:1.4s"></span>
-        <span class="teaser-star" style="top:44%;left:8%;animation-delay:2.6s"></span>
-        <span class="teaser-star" style="top:62%;left:80%;animation-delay:0.7s"></span>
-        <span class="teaser-star" style="top:74%;left:26%;animation-delay:3.3s"></span>
-        <span class="teaser-star" style="top:12%;left:48%;animation-delay:1.9s"></span>
-        <span class="teaser-star" style="top:84%;left:60%;animation-delay:2.2s"></span>
-        <span class="teaser-star" style="top:52%;left:92%;animation-delay:0.3s"></span>
-          <div class="eclipse">
-            <span class="eclipse-glow"></span>
-            <span class="eclipse-rim"></span>
-            <span class="eclipse-body"></span>
-          </div>
+      <!-- The file on a project still in progress, rather than a case study it hasn't earned yet.
+           Redactions are buttons so they can be probed by keyboard as well as cursor. -->
+      <article class="dossier" id="aether">
+        <div class="dsr-head">
+          <span class="dsr-id">Project 04 &mdash; <b>Aether</b></span>
+          <span class="dsr-build">Build 0.1.0</span>
         </div>
 
-        <div class="teaser-copy">
-          <p class="teaser-tag">Next up &middot; in development</p>
-          <h3 class="teaser-name">AETHER</h3>
-          <p class="teaser-kicker">Cinematic landing page builder</p>
-          <p class="teaser-line">Motion as a property of an element, not a script rewritten for every page. Sections are composed in the browser and driven by physics primitives &mdash; gravity, friction, inertia &mdash; with Three.js and WebGL doing the scene work. My largest project, still being built.</p>
+        <dl class="dsr-fields">
+          <div class="dsr-row">
+            <dt>Category</dt>
+            <dd><button type="button" class="probe" data-len="12" aria-label="Redacted"><span>            </span><i aria-hidden="true"></i></button> builder</dd>
+          </div>
+          <div class="dsr-row">
+            <dt>Status</dt>
+            <dd><span class="dsr-status">Active development</span></dd>
+          </div>
+          <div class="dsr-row">
+            <dt>Scope</dt>
+            <dd><button type="button" class="probe" data-len="19" aria-label="Redacted"><span>                   </span><i aria-hidden="true"></i></button></dd>
+          </div>
+          <div class="dsr-row">
+            <dt>Stack</dt>
+            <dd>Next.js <span class="sep">&middot;</span> GSAP <span class="sep">&middot;</span> Three.js <span class="sep">&middot;</span> <button type="button" class="probe" data-len="4" aria-label="Redacted"><span>    </span><i aria-hidden="true"></i></button></dd>
+          </div>
+          <div class="dsr-row">
+            <dt>Surface</dt>
+            <dd><button type="button" class="probe" data-len="8" aria-label="Redacted"><span>        </span><i aria-hidden="true"></i></button> <span class="sep">&middot;</span> <button type="button" class="probe" data-len="6" aria-label="Redacted"><span>      </span><i aria-hidden="true"></i></button> <span class="sep">&middot;</span> gallery</dd>
+          </div>
+        </dl>
 
-          <ul class="teaser-peeks">
-            <li>
-              <span class="peek-glyph peek-layers" aria-hidden="true"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="5" width="17" height="4" rx="1.5"/><rect x="3" y="11" width="20" height="4" rx="1.5"/><rect x="3" y="17" width="14" height="4" rx="1.5"/></svg></span>
-              <span><b>Visual editor</b><i>A layers tree, per-element behaviours, drag-and-drop ordering, publish from the canvas.</i></span>
-            </li>
-            <li>
-              <span class="peek-glyph peek-motion" aria-hidden="true"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 21 C 9 21, 10 5, 23 5" opacity=".45"/><circle class="dot" cx="0" cy="0" r="2.6" fill="currentColor" stroke="none"/></svg></span>
-              <span><b>Motion library</b><i>Pick a scroll animation, tune it against a live preview, copy the generated code.</i></span>
-            </li>
-            <li>
-              <span class="peek-glyph peek-grid" aria-hidden="true"><svg viewBox="0 0 26 26" fill="none"><rect x="3" y="3" width="9" height="9" rx="2" fill="currentColor"/><rect x="14" y="3" width="9" height="9" rx="2" fill="currentColor"/><rect x="3" y="14" width="9" height="9" rx="2" fill="currentColor"/><rect x="14" y="14" width="9" height="9" rx="2" fill="currentColor"/></svg></span>
-              <span><b>Template gallery</b><i>Eight cinematic starters across portfolio, SaaS, e-commerce and agency.</i></span>
-            </li>
-          </ul>
+        <p class="dsr-statement">&ldquo;The browser was never meant to be the editor.&rdquo;</p>
 
-          <a class="teaser-link" href="https://itsaether.vercel.app" target="_blank" rel="noopener noreferrer">Enter Aether <span aria-hidden="true">&#8599;</span></a>
+        <div class="dsr-foot">
+          <p class="dsr-note">Case study unavailable &mdash; project currently in development.</p>
+          <a class="dsr-link" href="https://itsaether.vercel.app" target="_blank" rel="noopener noreferrer">Enter Aether <span aria-hidden="true">&#8599;</span></a>
         </div>
       </article>
+
+
       <!-- One device, one live app per project. It stays beside the project you're reading and turns into its device: an iPhone or an iMac. -->
       <div class="show">
         <div class="show-steps">
@@ -1886,6 +1852,36 @@
     if (typed === 'hire') { typed = ''; openTerminal('hire'); }
   });
 
+  // Redactions rattle when probed and never resolve: the glyph pool is the same OCR set the
+  // headings decode from, so it reads as the page failing to read the file rather than a gimmick.
+  (() => {
+    const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#/_';
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+    document.querySelectorAll('.dossier .probe').forEach((bar) => {
+      const glyphs = bar.querySelector('i');
+      const len = Number(bar.dataset.len) || 8;
+      const noise = () => Array.from({ length: len }, () => CHARS[(Math.random() * CHARS.length) | 0]).join('');
+      let timer = null;
+      const open = () => {
+        if (timer) return;
+        bar.classList.add('is-probing');
+        glyphs.textContent = noise();
+        if (!still.matches) timer = setInterval(() => { glyphs.textContent = noise(); }, 80);
+      };
+      const shut = () => {
+        clearInterval(timer); timer = null;
+        bar.classList.remove('is-probing');
+        glyphs.textContent = '';
+      };
+      bar.addEventListener('pointerenter', open);
+      bar.addEventListener('pointerleave', shut);
+      bar.addEventListener('focus', open);
+      bar.addEventListener('blur', shut);
+      // Touch: a tap rattles it briefly, then it seals again
+      bar.addEventListener('click', () => { open(); setTimeout(shut, 1200); });
+    });
+  })();
+
   // Everything below is progressive: without GSAP the page is already in its final state
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
@@ -1956,21 +1952,20 @@
           .from(head.querySelector('.rule'), { scaleX: 0, duration: 1.1 }, 0.1);
       });
 
-      // Aether teaser: the moon rises out of the dark, the name decodes out of noise, then the
-      // three features arrive. Same OCR decode the section headings use, so it reads as one page.
-      const teaser = document.querySelector('.teaser');
-      if (teaser) {
-        gsap.timeline({ scrollTrigger: { trigger: teaser, start: 'top 82%' } })
-          .from(teaser, { opacity: 0, duration: 0.5 })
-          .from(teaser.querySelector('.eclipse'), { scale: 0.82, opacity: 0, duration: 1.3, ease: 'power2.out' }, 0)
-          .from(teaser.querySelectorAll('.teaser-star'), { opacity: 0, duration: 0.9, stagger: 0.06 }, 0.2)
-          .from(teaser.querySelector('.teaser-tag'), { opacity: 0, x: -8, duration: 0.5 }, 0.15)
-          .add(decode(teaser.querySelector('.teaser-name'), 1.2), 0.3)
-          .from([teaser.querySelector('.teaser-kicker'), teaser.querySelector('.teaser-line')],
-                { opacity: 0, y: 8, duration: 0.5, stagger: 0.1 }, 0.55)
-          .from(teaser.querySelectorAll('.teaser-peeks li'), { opacity: 0, y: 10, duration: 0.5, stagger: 0.13 }, 0.85)
-          .from(teaser.querySelector('.teaser-link'), { opacity: 0, y: 8, duration: 0.5 }, 1.3);
+      // The file arrives: name decodes, rows land one at a time, the statement last.
+      const dossier = document.querySelector('.dossier');
+      if (dossier) {
+        gsap.timeline({ scrollTrigger: { trigger: dossier, start: 'top 84%' } })
+          .from(dossier, { opacity: 0, y: 10, duration: 0.5 })
+          .add(decode(dossier.querySelector('.dsr-id b'), 0.8), 0.1)
+          .from(dossier.querySelector('.dsr-build'), { opacity: 0, duration: 0.5 }, 0.3)
+          .from(dossier.querySelectorAll('.dsr-row'), { opacity: 0, x: -6, duration: 0.45, stagger: 0.09 }, 0.35)
+          .from(dossier.querySelectorAll('.probe'), { scaleX: 0, transformOrigin: 'left center', duration: 0.5, stagger: 0.09 }, 0.4)
+          .from(dossier.querySelector('.dsr-statement'), { opacity: 0, y: 8, duration: 0.6 }, 0.85)
+          .from(dossier.querySelector('.dsr-foot'), { opacity: 0, duration: 0.5 }, 1.05);
       }
+
+
 
       // Project rows are "scanned": one soft beam sweeps down the row and reveals it, one row at a
       // time as you reach it. Everything smaller just fades in, so the beam stays special.
