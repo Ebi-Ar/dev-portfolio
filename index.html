@@ -719,17 +719,115 @@
       .term-prompt { display: none; }
     }
 
+    /* ── AETHER TEASER ──
+       Not a demo: a sneak peek. The project isn't finished, so instead of handing over the whole
+       app this panel borrows Aether's own look (a backlit moon on black) and names what's inside.
+       Dark in both themes on purpose, like a film still set into the page. */
+    .teaser {
+      position: relative; margin-bottom: 44px; border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(146, 180, 232, 0.16);
+      background: radial-gradient(130% 110% at 50% -10%, #16202f 0%, #0a0f18 52%, #05070c 100%);
+      isolation: isolate;
+    }
+    .teaser::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(120% 90% at 50% 120%, rgba(2, 114, 180, 0.18), transparent 60%);
+    }
+
+    /* The stage: stars, then the moon */
+    .teaser-stage {
+      position: relative; min-height: 264px; display: grid; place-items: center; overflow: hidden;
+      border-bottom: 1px solid rgba(146, 180, 232, .10);
+    }
+    .teaser-star {
+      position: absolute; width: 2px; height: 2px; border-radius: 50%;
+      background: #d4e4ff; opacity: .45; animation: t-twinkle 5s ease-in-out infinite;
+    }
+    .eclipse { position: relative; width: clamp(128px, 17vw, 196px); aspect-ratio: 1; }
+    .eclipse-glow {
+      position: absolute; inset: -70%; border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(158, 197, 255, .38), rgba(82, 134, 214, .12) 46%, transparent 72%);
+      animation: t-breathe 7.5s ease-in-out infinite;
+    }
+    .eclipse-rim {
+      position: absolute; inset: -4%; border-radius: 50%;
+      background: conic-gradient(from 210deg, transparent 0 14%, rgba(205, 228, 255, .9) 30%, rgba(150, 190, 250, .35) 46%, transparent 60%, rgba(180, 210, 255, .5) 82%, transparent 96%);
+      filter: blur(4px); opacity: .8; animation: t-spin 26s linear infinite;
+    }
+    .eclipse-body {
+      position: absolute; inset: 0; border-radius: 50%;
+      background: radial-gradient(circle at 46% 38%, #8b9fbd 0%, #5a6c88 34%, #2a3646 66%, #101823 100%);
+      box-shadow: inset -10px -12px 34px rgba(0, 0, 0, .62), inset 6px 6px 22px rgba(190, 216, 255, .12),
+                  0 0 0 1px rgba(196, 220, 255, .28), 0 0 30px 2px rgba(150, 190, 255, .22);
+    }
+
+    /* The copy */
+    .teaser-copy { padding: 34px 34px 36px; display: grid; align-content: center; }
+    .teaser-tag {
+      display: inline-flex; align-items: center; gap: 8px; margin: 0;
+      font: 500 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: #7cb6ec;
+    }
+    .teaser-tag::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%; background: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, .9); animation: t-pulse 2.6s ease-in-out infinite;
+    }
+    .teaser-name {
+      margin: 16px 0 0; color: #fff; font: 700 clamp(28px, 4.4vw, 42px)/1 var(--sans); letter-spacing: .26em;
+    }
+    .teaser-kicker { margin: 12px 0 0; font: 500 12.5px/1.5 var(--mono); color: #8d9db4; }
+    .teaser-line { margin: 14px 0 0; max-width: 48ch; color: #b4c2d6; font-size: 14.5px; line-height: 1.6; }
+
+    /* What's inside: named, with a glyph that acts out the feature */
+    .teaser-peeks { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
+    .teaser-peeks li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; align-items: start; }
+    .teaser-peeks b { display: block; color: #e9eff8; font: 600 13px/1.45 var(--sans); }
+    .teaser-peeks i { display: block; font-style: normal; color: #8d9db4; font-size: 12.5px; line-height: 1.5; }
+    .peek-glyph { width: 26px; height: 26px; color: #7cb6ec; margin-top: 1px; }
+    .peek-glyph svg { width: 100%; height: 100%; display: block; overflow: visible; }
+    .peek-layers rect:nth-child(1) { animation: t-slide 4.2s ease-in-out infinite; }
+    .peek-layers rect:nth-child(3) { animation: t-slide 4.2s ease-in-out infinite reverse; }
+    .peek-motion .dot {
+      offset-path: path('M3 21 C 9 21, 10 5, 23 5'); offset-distance: 0%;
+      animation: t-travel 3.4s cubic-bezier(.65,0,.35,1) infinite;
+    }
+    .peek-grid rect { animation: t-blink 3.6s ease-in-out infinite; }
+    .peek-grid rect:nth-child(2) { animation-delay: .3s; }
+    .peek-grid rect:nth-child(3) { animation-delay: .9s; }
+    .peek-grid rect:nth-child(4) { animation-delay: .6s; }
+
+    .teaser-link {
+      justify-self: start; margin-top: 24px; display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: 999px; text-decoration: none;
+      border: 1px solid rgba(160, 200, 250, .35); color: #e9eff8;
+      font: 500 12.5px/1 var(--mono); letter-spacing: .04em;
+      background: rgba(125, 175, 235, .08); transition: background .25s ease, border-color .25s ease, transform .25s ease;
+    }
+    .teaser-link:hover { background: rgba(125, 175, 235, .18); border-color: rgba(190, 220, 255, .6); transform: translateY(-1px); }
+    .teaser-link:focus-visible { outline: 2px solid #7cb6ec; outline-offset: 3px; }
+
+    @keyframes t-breathe { 0%, 100% { transform: scale(.93); opacity: .72; } 50% { transform: scale(1.07); opacity: 1; } }
+    @keyframes t-spin { to { transform: rotate(360deg); } }
+    @keyframes t-twinkle { 0%, 100% { opacity: .15; } 50% { opacity: .75; } }
+    @keyframes t-pulse { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+    @keyframes t-slide { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+    @keyframes t-travel { 0% { offset-distance: 0%; } 100% { offset-distance: 100%; } }
+    @keyframes t-blink { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .status .dot::after { animation: none; }
       .tl-fill { transform: none; }
       .morph-slot, .morph, .morph *, .morph::after, .morph-stand, .morph-backdrop { transition: none !important; }
       .bot *, .bot *::after { animation: none !important; }
+      .teaser *, .teaser *::before, .teaser *::after { animation: none !important; }
     }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 960px) {
       .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 16px; }
+      .teaser-stage { min-height: 210px; }
+      .teaser-copy { padding: 26px 22px 30px; }
+      .teaser-name { letter-spacing: .18em; }
       .side { position: static; height: auto; padding: 56px 0 8px; display: block; }
       .blurb { max-width: 46ch; }
       .toc { display: none; }
@@ -859,25 +957,55 @@
     <!-- PROJECTS -->
     <section id="projects">
       <h2 class="sec-head"><span class="n">02</span><span class="sec-title">Projects</span><span class="rule"></span></h2>
+
+      <!-- Aether is unfinished, so it gets a teaser rather than a demo: its own backlit-moon
+           look, the name decoding out of noise, and three named features. The way in is the link. -->
+      <article class="teaser" id="aether">
+        <div class="teaser-stage" aria-hidden="true">
+        <span class="teaser-star" style="top:18%;left:14%;animation-delay:0s"></span>
+        <span class="teaser-star" style="top:28%;left:72%;animation-delay:1.4s"></span>
+        <span class="teaser-star" style="top:44%;left:8%;animation-delay:2.6s"></span>
+        <span class="teaser-star" style="top:62%;left:80%;animation-delay:0.7s"></span>
+        <span class="teaser-star" style="top:74%;left:26%;animation-delay:3.3s"></span>
+        <span class="teaser-star" style="top:12%;left:48%;animation-delay:1.9s"></span>
+        <span class="teaser-star" style="top:84%;left:60%;animation-delay:2.2s"></span>
+        <span class="teaser-star" style="top:52%;left:92%;animation-delay:0.3s"></span>
+          <div class="eclipse">
+            <span class="eclipse-glow"></span>
+            <span class="eclipse-rim"></span>
+            <span class="eclipse-body"></span>
+          </div>
+        </div>
+
+        <div class="teaser-copy">
+          <p class="teaser-tag">Next up &middot; in development</p>
+          <h3 class="teaser-name">AETHER</h3>
+          <p class="teaser-kicker">Cinematic landing page builder</p>
+          <p class="teaser-line">Motion as a property of an element, not a script rewritten for every page. Sections are composed in the browser and driven by physics primitives &mdash; gravity, friction, inertia &mdash; with Three.js and WebGL doing the scene work. My largest project, still being built.</p>
+
+          <ul class="teaser-peeks">
+            <li>
+              <span class="peek-glyph peek-layers" aria-hidden="true"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="5" width="17" height="4" rx="1.5"/><rect x="3" y="11" width="20" height="4" rx="1.5"/><rect x="3" y="17" width="14" height="4" rx="1.5"/></svg></span>
+              <span><b>Visual editor</b><i>A layers tree, per-element behaviours, drag-and-drop ordering, publish from the canvas.</i></span>
+            </li>
+            <li>
+              <span class="peek-glyph peek-motion" aria-hidden="true"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 21 C 9 21, 10 5, 23 5" opacity=".45"/><circle class="dot" cx="0" cy="0" r="2.6" fill="currentColor" stroke="none"/></svg></span>
+              <span><b>Motion library</b><i>Pick a scroll animation, tune it against a live preview, copy the generated code.</i></span>
+            </li>
+            <li>
+              <span class="peek-glyph peek-grid" aria-hidden="true"><svg viewBox="0 0 26 26" fill="none"><rect x="3" y="3" width="9" height="9" rx="2" fill="currentColor"/><rect x="14" y="3" width="9" height="9" rx="2" fill="currentColor"/><rect x="3" y="14" width="9" height="9" rx="2" fill="currentColor"/><rect x="14" y="14" width="9" height="9" rx="2" fill="currentColor"/></svg></span>
+              <span><b>Template gallery</b><i>Eight cinematic starters across portfolio, SaaS, e-commerce and agency.</i></span>
+            </li>
+          </ul>
+
+          <a class="teaser-link" href="https://itsaether.vercel.app" target="_blank" rel="noopener noreferrer">Enter Aether <span aria-hidden="true">&#8599;</span></a>
+        </div>
+      </article>
       <!-- One device, one live app per project. It stays beside the project you're reading and turns into its device: an iPhone or an iMac. -->
       <div class="show">
         <div class="show-steps">
 
           <article class="show-step is-active" tabindex="0">
-            <div class="step-body">
-              <div class="p-meta inline">2026 – Present <span class="badge dev">In development</span></div>
-              <h3>Aether</h3>
-              <p class="kicker">Cinematic landing page builder</p>
-              <div class="step-more">
-                <p>A visual builder for landing pages where motion is part of the page rather than something added afterwards. Sections are assembled in a browser editor with a layers tree, per-element behaviours and drag-and-drop ordering, then previewed at any width and published from the editor.</p>
-                <p>Motion runs on physics primitives &mdash; gravity, friction and inertia &mdash; built on GSAP, with Three.js and WebGL handling the scene work. My largest project so far, and the one I am still building.</p>
-                <ul class="stack"><li>Next.js</li><li>React</li><li>TypeScript</li><li>GSAP</li><li>Three.js</li><li>Tailwind CSS</li><li>dnd-kit</li></ul>
-                <p class="device-note">The live site, running here. Open the editor or browse the template gallery.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="show-step" tabindex="0">
             <div class="step-body">
               <div class="p-meta inline">2026 – Present <span class="badge dev">In development</span></div>
               <h3>Social Gym Tracking App</h3>
@@ -915,10 +1043,7 @@
                     <span>9:41</span>
                     <svg viewBox="0 0 50 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0.5" width="3" height="11.5" rx="1"/><rect x="25.5" y="0.5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="27.5" y="2.5" width="15" height="7" rx="1.5"/><rect x="47.5" y="4" width="1.8" height="4" rx=".9" opacity=".45"/></svg>
                   </div>
-                  <div class="morph-app is-on" data-shape="desktop" data-w="1280" data-h="720" data-label="Aether · live site">
-                    <iframe data-src="https://itsaether.vercel.app" title="Aether, the live site"></iframe>
-                  </div>
-                  <div class="morph-app" data-shape="phone" data-w="390" data-h="844" data-label="Everyday Gym · sample account">
+                  <div class="morph-app is-on" data-shape="phone" data-w="390" data-h="844" data-label="Everyday Gym · sample account">
                     <iframe data-src="apps/gymm/index.html?start=/profile" title="Gym app, live demo with a sample account"></iframe>
                   </div>
                   <div class="morph-app" data-shape="desktop" data-w="1024" data-h="576" data-label="Food Analyzer · sample data">
@@ -930,7 +1055,7 @@
               </div>
               <div class="morph-stand" aria-hidden="true"></div>
               <div class="morph-foot">
-                <span class="morph-hint">Aether · live site</span>
+                <span class="morph-hint">Everyday Gym · sample account</span>
                 <button class="morph-full" type="button">Full size <span aria-hidden="true">⤢</span></button>
               </div>
             </div>
@@ -1830,6 +1955,22 @@
           .add(decode(head.querySelector('.sec-title'), 0.9), 0)
           .from(head.querySelector('.rule'), { scaleX: 0, duration: 1.1 }, 0.1);
       });
+
+      // Aether teaser: the moon rises out of the dark, the name decodes out of noise, then the
+      // three features arrive. Same OCR decode the section headings use, so it reads as one page.
+      const teaser = document.querySelector('.teaser');
+      if (teaser) {
+        gsap.timeline({ scrollTrigger: { trigger: teaser, start: 'top 82%' } })
+          .from(teaser, { opacity: 0, duration: 0.5 })
+          .from(teaser.querySelector('.eclipse'), { scale: 0.82, opacity: 0, duration: 1.3, ease: 'power2.out' }, 0)
+          .from(teaser.querySelectorAll('.teaser-star'), { opacity: 0, duration: 0.9, stagger: 0.06 }, 0.2)
+          .from(teaser.querySelector('.teaser-tag'), { opacity: 0, x: -8, duration: 0.5 }, 0.15)
+          .add(decode(teaser.querySelector('.teaser-name'), 1.2), 0.3)
+          .from([teaser.querySelector('.teaser-kicker'), teaser.querySelector('.teaser-line')],
+                { opacity: 0, y: 8, duration: 0.5, stagger: 0.1 }, 0.55)
+          .from(teaser.querySelectorAll('.teaser-peeks li'), { opacity: 0, y: 10, duration: 0.5, stagger: 0.13 }, 0.85)
+          .from(teaser.querySelector('.teaser-link'), { opacity: 0, y: 8, duration: 0.5 }, 1.3);
+      }
 
       // Project rows are "scanned": one soft beam sweeps down the row and reveals it, one row at a
       // time as you reach it. Everything smaller just fades in, so the beam stays special.
